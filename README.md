@@ -63,3 +63,5 @@ a uma já existente;
 número de CPF;
 - Não deverá ser possível cadastrar diferentes clientes com um mesmo
 endereço de e-mail;
+
+![Diagrama ER](https://github.com/PauloVitorLessa/API-RESTful-Trabalho-Final/blob/main/Diagrama-ER.png?raw=true)
