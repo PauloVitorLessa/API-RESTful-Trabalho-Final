@@ -1,0 +1,113 @@
+package com.residencia.ecommerce.entities;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@JsonIdentityInfo(
+		scope = Pedido.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id_pedido"
+		)
+@Entity
+@Table(name = "pedido")
+public class Pedido {
+	
+	@Id // indica que esse atributo é chave primaria (obrigatorio)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
+	@Column(name = "id_pedido")
+	private Integer idPedido;
+	
+	@Column(name = "data_pedido")
+	private Instant dataPedido;
+	
+	@Column(name = "data_entrega")
+	private Instant dataEntrega;
+	
+	@Column(name = "data_envio")
+	private Instant dataEnvio;
+	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal;
+	
+	@ManyToOne //JoinColumn é para quem recebe a chave estrangeira
+	@JoinColumn(name = "id_cliente", 
+					referencedColumnName = "id_cliente")
+	private Cliente cliente;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "item_pedido", joinColumns = @JoinColumn(name = "id_item_pedido"), 
+	inverseJoinColumns = @JoinColumn(name = "id_pedido"))
+	private Set<Produto> roles = new HashSet<>();
+	
+	public Integer getNumeroIdPedido() {
+		return idPedido;
+	}
+	public void setNumeroIdPedido(Integer idPedido) {
+		this.idPedido = idPedido;
+	}
+	public Instant getDataPedido() {
+		return dataPedido;
+	}
+	public void setDataPedido(Instant dataPedido) {
+		this.dataPedido = dataPedido;
+	}
+	public Instant getDataEntrega() {
+		return dataEntrega;
+	}
+	public void setDataEntrega(Instant dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+	public Instant getDataEnvio() {
+		return dataEnvio;
+	}
+	public void setDataEnvio(Instant dataEnvio) {
+		this.dataEnvio = dataEnvio;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
+	@Override
+	public String toString() {
+		return "Pedido [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega="
+				+ dataEntrega + ", dataEnvio=" + dataEnvio + ", status=" + status + ", valorTotal=" + valorTotal
+				+ ", cliente=" + cliente + "]";
+	}
+}
