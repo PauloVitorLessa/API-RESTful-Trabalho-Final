@@ -3,7 +3,6 @@ package com.residencia.ecommerce.entities;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -11,13 +10,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -56,10 +52,8 @@ public class Pedido {
 					referencedColumnName = "id_cliente")
 	private Cliente cliente;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "item_pedido", joinColumns = @JoinColumn(name = "id_item_pedido"), 
-	inverseJoinColumns = @JoinColumn(name = "id_pedido"))
-	private Set<Produto> roles = new HashSet<>();
+	@OneToMany(mappedBy = "pedido")
+	private Set<Produto> produtos = new HashSet<>();
 	
 	public Integer getNumeroIdPedido() {
 		return idPedido;

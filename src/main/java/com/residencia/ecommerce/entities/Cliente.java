@@ -1,12 +1,10 @@
 package com.residencia.ecommerce.entities;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.residencia.ecommerce.entities.Cliente;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
