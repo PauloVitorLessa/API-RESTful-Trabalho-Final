@@ -48,5 +48,5 @@ public class Produto {
 	private Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto")
-	private Set<Pedido> pedidos = new HashSet<>();
+	private Set<ItemPedido> pedidos = new HashSet<>();
 }

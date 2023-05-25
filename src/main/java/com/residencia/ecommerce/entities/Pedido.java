@@ -53,7 +53,7 @@ public class Pedido {
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "pedido")
-	private Set<Produto> produtos = new HashSet<>();
+	private Set<ItemPedido> produtos = new HashSet<>();
 	
 	public Integer getNumeroIdPedido() {
 		return idPedido;

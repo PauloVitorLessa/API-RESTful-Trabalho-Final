@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @JsonIdentityInfo(
 		scope = Pedido.class,
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id_pedido"
+		property = "id_endereco"
 		)
 @Entity
 @Table(name = "endereco") // indica a qual tabela ela se refere no banco
@@ -22,8 +22,8 @@ public class Endereco {
 	
 	@Id // indica que esse atributo é chave primaria (obrigatorio)
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
-	@Column(name = "id_pedido")
-	private Integer numeroIdPedido;
+	@Column(name = "id_endereco")
+	private Integer idEndereco;
 
 	@Column(name = "cep")
 	private String cep;
@@ -50,11 +50,11 @@ public class Endereco {
 	private Cliente cliente;
 
 	public Integer getNumeroIdPedido() {
-		return numeroIdPedido;
+		return idEndereco;
 	}
 
 	public void setNumeroIdPedido(Integer numeroIdPedido) {
-		this.numeroIdPedido = numeroIdPedido;
+		this.idEndereco = numeroIdPedido;
 	}
 
 	public String getCep() {
@@ -123,7 +123,7 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-		return "Pedido [numeroIdPedido=" + numeroIdPedido + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
+		return "Pedido [numeroIdPedido=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
 				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf
 				+ ", cliente=" + cliente + "]";
 	}
