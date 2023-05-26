@@ -3,8 +3,7 @@ package com.residencia.ecommerce.entities;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -18,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -41,6 +41,7 @@ public class Produto {
 	@Column(name = "qtd_estoque")
 	private Integer qtdEstoque;
 	
+	@NotNull
 	@Column(name = "data_cadastro")
 	private Instant dataCadastro;
 	
@@ -51,12 +52,13 @@ public class Produto {
 	private byte[] imagem; 
 	
 	@ManyToOne 
+	@NotNull
 	@JoinColumn(name = "id_categoria", 
 					referencedColumnName = "id_categoria")
 	private Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto")
-	private Set<ItemPedido> pedidos = new HashSet<>();
+	private List<ItemPedido> pedidos;
 
 	public Integer getIdProduto() {
 		return idProduto;
@@ -122,11 +124,11 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	public Set<ItemPedido> getPedidos() {
+	public List<ItemPedido> getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(Set<ItemPedido> pedidos) {
+	public void setPedidos(List<ItemPedido> pedidos) {
 		this.pedidos = pedidos;
 	}
 

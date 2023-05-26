@@ -33,8 +33,9 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	private Integer idCliente;
 	
+	
 	@Column(name = "cpf")
-	private Integer cpf;
+	private String cpf;
 	
 	@Column(name = "nome_completo")
 	private String nome;
@@ -78,11 +79,11 @@ public class Cliente {
 		this.idCliente = numeroIdCliente;
 	}
 
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 

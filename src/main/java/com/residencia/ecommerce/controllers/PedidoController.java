@@ -48,7 +48,7 @@ public class PedidoController {
     
     @PutMapping
     public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido) {
-    	if(pedidoService.getPedidoById(pedido.getidPedido()) != null) {
+    	if(pedidoService.getPedidoById(pedido.getIdPedido()) != null) {
             return new ResponseEntity<> (pedidoService.updatePedido(pedido),
                     HttpStatus.OK);
         }
