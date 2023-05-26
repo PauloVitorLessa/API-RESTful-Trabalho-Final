@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @JsonIdentityInfo(
 		scope = Pedido.class,
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id_endereco"
+		property = "idEndereco"
 		)
 @Entity
 @Table(name = "endereco") // indica a qual tabela ela se refere no banco

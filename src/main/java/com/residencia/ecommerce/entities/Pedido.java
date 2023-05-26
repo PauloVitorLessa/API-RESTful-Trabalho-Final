@@ -21,7 +21,7 @@ import jakarta.persistence.Table;
 @JsonIdentityInfo(
 		scope = Pedido.class,
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id_pedido"
+		property = "idPedido"
 		)
 @Entity
 @Table(name = "pedido")
