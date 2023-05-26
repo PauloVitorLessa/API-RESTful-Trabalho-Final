@@ -12,7 +12,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @JsonIdentityInfo(
-		scope = Pedido.class,
+		scope = Endereco.class,
 		generator = ObjectIdGenerators.PropertyGenerator.class,
 		property = "idEndereco"
 		)
@@ -49,12 +49,12 @@ public class Endereco {
 	@OneToOne (mappedBy = "endereco")
 	private Cliente cliente;
 
-	public Integer getNumeroIdPedido() {
+	public Integer getIdEndereco() {
 		return idEndereco;
 	}
 
-	public void setNumeroIdPedido(Integer numeroIdPedido) {
-		this.idEndereco = numeroIdPedido;
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getCep() {
@@ -123,7 +123,7 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-		return "Pedido [numeroIdPedido=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
+		return "Endereco [idEndereco=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
 				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf
 				+ ", cliente=" + cliente + "]";
 	}

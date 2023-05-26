@@ -55,10 +55,10 @@ public class Pedido {
 	@OneToMany(mappedBy = "pedido")
 	private Set<ItemPedido> produtos = new HashSet<>();
 	
-	public Integer getNumeroIdPedido() {
+	public Integer getidPedido() {
 		return idPedido;
 	}
-	public void setNumeroIdPedido(Integer idPedido) {
+	public void setidPedido(Integer idPedido) {
 		this.idPedido = idPedido;
 	}
 	public Instant getDataPedido() {

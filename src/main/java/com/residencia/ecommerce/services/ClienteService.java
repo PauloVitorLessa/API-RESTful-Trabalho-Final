@@ -41,17 +41,15 @@ public class ClienteService {
 		
 	}
 	
-	   public Boolean delCliente(Integer id) {
-		  if(clienteRepository.findById(id).orElse(null)!=null) {
+	public Boolean delCliente(Integer id) {
+		if(clienteRepository.findById(id).orElse(null)!=null) {
 			  clienteRepository.deleteById(id);
-			  if(clienteRepository.findById(id).orElse(null)==null)
-				  return true;
-		     else
-		    	 return false;
-		  }
-		    else return false;
+		 if(clienteRepository.findById(id).orElse(null)==null)
+			 return true;
+		  else
+		     return false;
+		}
+		 else return false;
 	    	  
-	      }
-	
-
+	}
 }

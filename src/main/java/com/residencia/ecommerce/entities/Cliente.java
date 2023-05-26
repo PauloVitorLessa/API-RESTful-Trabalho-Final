@@ -70,11 +70,11 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente") //linkando com o "cliente" criado no pedido
 	private List<Pedido> pedido; // 1 cliente pode ter N pedidos
 
-	public Integer getNumeroIdCliente() {
+	public Integer getIdCliente() {
 		return idCliente;
 	}
 
-	public void setNumeroIdCliente(Integer numeroIdCliente) {
+	public void setIdCliente(Integer numeroIdCliente) {
 		this.idCliente = numeroIdCliente;
 	}
 
