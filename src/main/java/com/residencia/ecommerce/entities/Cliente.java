@@ -1,17 +1,21 @@
 package com.residencia.ecommerce.entities;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -43,6 +47,18 @@ public class Cliente {
 	
 	@Column(name = "data_nascimento")
 	private Instant dataNascimento;
+	
+	@Column(name = "user_name")
+	private String username;
+	
+	@Column(name = "password")
+	private String password;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "cliente_roles", joinColumns = @JoinColumn(name = "id_cliente"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+	
 	
 	//cardinalidade 1:1
 	@OneToOne
