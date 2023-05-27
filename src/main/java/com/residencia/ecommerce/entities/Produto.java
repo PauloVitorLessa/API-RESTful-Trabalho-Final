@@ -1,8 +1,8 @@
 package com.residencia.ecommerce.entities;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -43,7 +43,7 @@ public class Produto {
 	
 	@NotNull
 	@Column(name = "data_cadastro")
-	private Instant dataCadastro;
+	private Date dataCadastro;
 	
 	@Column(name = "valor_unitario")
 	private BigDecimal valorUnitario;
@@ -92,11 +92,11 @@ public class Produto {
 		this.qtdEstoque = qtdEstoque;
 	}
 
-	public Instant getDataCadastro() {
+	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Instant dataCadastro) {
+	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

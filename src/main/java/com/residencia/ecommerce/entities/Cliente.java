@@ -1,6 +1,7 @@
 package com.residencia.ecommerce.entities;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class Cliente {
 	private String telefone;
 	
 	@Column(name = "data_nascimento")
-	private Instant dataNascimento;
+	private Date dataNascimento;
 	
 	@Column(name = "user_name", unique = true)
 	private String username;
@@ -111,11 +112,11 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public Instant getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Instant dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

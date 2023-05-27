@@ -1,7 +1,7 @@
 package com.residencia.ecommerce.entities;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -34,15 +34,15 @@ public class Pedido {
 	
 	@NotNull
 	@Column(name = "data_pedido")
-	private Instant dataPedido;
+	private Date dataPedido;
 	
 	@NotNull
 	@Column(name = "data_entrega")
-	private Instant dataEntrega;
+	private Date dataEntrega;
 	
 	@NotNull
 	@Column(name = "data_envio")
-	private Instant dataEnvio;
+	private Date dataEnvio;
 
 	@NotNull
 	@Column(name = "status")
@@ -72,37 +72,37 @@ public class Pedido {
 
 
 
-	public Instant getDataPedido() {
+	public Date getDataPedido() {
 		return dataPedido;
 	}
 
 
 
-	public void setDataPedido(Instant dataPedido) {
+	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 
 
 
-	public Instant getDataEntrega() {
+	public Date getDataEntrega() {
 		return dataEntrega;
 	}
 
 
 
-	public void setDataEntrega(Instant dataEntrega) {
+	public void setDataEntrega(Date dataEntrega) {
 		this.dataEntrega = dataEntrega;
 	}
 
 
 
-	public Instant getDataEnvio() {
+	public Date getDataEnvio() {
 		return dataEnvio;
 	}
 
 
 
-	public void setDataEnvio(Instant dataEnvio) {
+	public void setDataEnvio(Date dataEnvio) {
 		this.dataEnvio = dataEnvio;
 	}
 
