@@ -2,6 +2,14 @@ package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.ItemPedido;
+
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+
 public class ItemPedidoDTO {
 	
 	private Integer idItemPedido;
@@ -16,26 +24,30 @@ public class ItemPedidoDTO {
 	
 	private BigDecimal valorLiquido;
 	
-	private PedidoDTO pedido;
+	private PedidoDTO pedidoDTO;
 	
-	private ProdutoDTO produto;
+	private ProdutoDTO produtoDTO;
+	
+	String status;
 
-	public ItemPedidoDTO(Integer idItemPedido, Integer quantidade, BigDecimal precoVenda, BigDecimal percentualDesconto,
-			BigDecimal valorBruto, BigDecimal valorLiquido, PedidoDTO pedido, ProdutoDTO produto) {
+	public ItemPedidoDTO(@Min(1) Integer quantidade, @DecimalMin("0.0") @DecimalMax("1.0") BigDecimal percentualDesconto,
+			PedidoDTO pedidoDTO, ProdutoDTO produtoDTO, String status) {
 		super();
-		this.idItemPedido = idItemPedido;
 		this.quantidade = quantidade;
-		this.precoVenda = precoVenda;
 		this.percentualDesconto = percentualDesconto;
-		this.valorBruto = valorBruto;
-		this.valorLiquido = valorLiquido;
-		this.pedido = pedido;
-		this.produto = produto;
+		this.pedidoDTO = pedidoDTO;
+		this.produtoDTO = produtoDTO;
+		this.status = status;		
+		this.precoVenda = produtoDTO.getValorUnitario();
+		this.valorBruto = this.precoVenda.multiply(BigDecimal.valueOf(quantidade));
+		this.valorLiquido = this.valorBruto.subtract(this.valorBruto.multiply(percentualDesconto));
 	}
 
 	public ItemPedidoDTO() {
-		super();
-		
+		super();		
+	}
+	public ItemPedidoDTO(ItemPedido entity) {
+		BeanUtils.copyProperties(entity, this);
 	}
 
 	public Integer getIdItemPedido() {
@@ -86,21 +98,27 @@ public class ItemPedidoDTO {
 		this.valorLiquido = valorLiquido;
 	}
 
-	public PedidoDTO getPedido() {
-		return pedido;
+	public PedidoDTO getPedidoDTO() {
+		return pedidoDTO;
 	}
 
-	public void setPedido(PedidoDTO pedido) {
-		this.pedido = pedido;
+	public void setPedidoDTO(PedidoDTO pedidoDTO) {
+		this.pedidoDTO = pedidoDTO;
 	}
 
-	public ProdutoDTO getProduto() {
-		return produto;
+	public ProdutoDTO getProdutoDTO() {
+		return produtoDTO;
 	}
 
-	public void setProduto(ProdutoDTO produto) {
-		this.produto = produto;
+	public void setProdutoDTO(ProdutoDTO produtoDTO) {
+		this.produtoDTO = produtoDTO;
 	}
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}	
 }

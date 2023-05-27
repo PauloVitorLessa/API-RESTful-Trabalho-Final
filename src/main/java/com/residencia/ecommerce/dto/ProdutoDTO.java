@@ -1,10 +1,12 @@
 package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-import com.residencia.ecommerce.entities.Categoria;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Produto;
 
 
 
@@ -18,18 +20,18 @@ public class ProdutoDTO {
 	
 	private Integer qtdEstoque;
 	
-	private Instant dataCadastro;
+	private Date dataCadastro;
 
 	private BigDecimal valorUnitario;
 
 	private byte[] imagem; 
 
-	private Categoria categoria;
+	private CategoriaDTO categoriaDTO;
 	
-	private Set<ItemPedidoDTO> pedidos = new HashSet<>();
+	private List<ItemPedidoDTO> pedidos;
 
-	public ProdutoDTO(Integer idProduto, String nome, String descricao, Integer qtdEstoque, Instant dataCadastro,
-			BigDecimal valorUnitario, byte[] imagem, Categoria categoria, Set<ItemPedidoDTO> pedidos) {
+	public ProdutoDTO(Integer idProduto, String nome, String descricao, Integer qtdEstoque, Date dataCadastro,
+			BigDecimal valorUnitario, byte[] imagem, CategoriaDTO categoriaDTO, List<ItemPedidoDTO> pedidos) {
 		super();
 		this.idProduto = idProduto;
 		this.nome = nome;
@@ -38,13 +40,15 @@ public class ProdutoDTO {
 		this.dataCadastro = dataCadastro;
 		this.valorUnitario = valorUnitario;
 		this.imagem = imagem;
-		this.categoria = categoria;
+		this.categoriaDTO = categoriaDTO;
 		this.pedidos = pedidos;
 	}
 
 	public ProdutoDTO() {
-		super();
-		
+		super();		
+	}
+	public ProdutoDTO(Produto entity){
+		BeanUtils.copyProperties(entity, this);	
 	}
 
 	public Integer getIdProduto() {
@@ -79,11 +83,11 @@ public class ProdutoDTO {
 		this.qtdEstoque = qtdEstoque;
 	}
 
-	public Instant getDataCadastro() {
+	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Instant dataCadastro) {
+	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
@@ -103,21 +107,19 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public CategoriaDTO getCategoriaDTO() {
+		return categoriaDTO;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategoriaDTO(CategoriaDTO categoriaDTO) {
+		this.categoriaDTO = categoriaDTO;
 	}
 
-	public Set<ItemPedidoDTO> getPedidos() {
+	public List<ItemPedidoDTO> getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(Set<ItemPedidoDTO> pedidos) {
+	public void setPedidos(List<ItemPedidoDTO> pedidos) {
 		this.pedidos = pedidos;
-	}
-	
-	
+	}	
 }

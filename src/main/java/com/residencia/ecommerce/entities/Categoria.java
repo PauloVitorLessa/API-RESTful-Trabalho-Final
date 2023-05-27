@@ -34,7 +34,7 @@ public class Categoria {
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria") 
-	private List<Produto> produtos; 
+	private List<Produto> produtos;
 
 	public Integer getIdCategoria() {
 		return idCategoria;
@@ -58,5 +58,13 @@ public class Categoria {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}	
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	} 		
 }

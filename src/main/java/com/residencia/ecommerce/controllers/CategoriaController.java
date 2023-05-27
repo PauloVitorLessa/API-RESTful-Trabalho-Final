@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.Categoria;
+import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.services.CategoriaService;
 
 @RestController
@@ -25,35 +25,35 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 	
 	@GetMapping
-    public ResponseEntity<List<Categoria>> getAllCategorias() {
-        return new ResponseEntity<>(categoriaService.getAllCategorias(),
+    public ResponseEntity<List<CategoriaDTO>> getAllCategoriasDTO() {
+        return new ResponseEntity<>(categoriaService.getAllCategoriasDTO(),
                 HttpStatus.OK);
-        //ResponseEntity manipula o retorno
+        
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(@PathVariable Integer id) {
-        Categoria categoriaResponse = categoriaService.getCategoriaById(id);
-        if(null == categoriaResponse)
+    public ResponseEntity<CategoriaDTO> getCategoriaDtoById(@PathVariable Integer id) {
+        CategoriaDTO categoriaDTOResponse = categoriaService.getCategoriaDtoById(id);
+        if(null == categoriaDTOResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(categoriaResponse, HttpStatus.OK);
+            return new ResponseEntity<>(categoriaDTOResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria) {
-        return new ResponseEntity<>(categoriaService.saveCategoria(categoria),HttpStatus.CREATED);
+    public ResponseEntity<CategoriaDTO> saveCategoriaDTO(@RequestBody CategoriaDTO categoriaDTO) {
+        return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria) {
-    	if(categoriaService.getCategoriaById(categoria.getIdCategoria()) != null) {
-            return new ResponseEntity<> (categoriaService.updateCategoria(categoria),
+    public ResponseEntity<CategoriaDTO> updateCategoriaDTO(@RequestBody CategoriaDTO categoriaDTO) {
+    	if(categoriaService.getCategoriaDtoById(categoriaDTO.getIdCategoria()) != null) {
+            return new ResponseEntity<> (categoriaService.updateCategoriaDTO(categoriaDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (categoria,
+            return new ResponseEntity<> (categoriaDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

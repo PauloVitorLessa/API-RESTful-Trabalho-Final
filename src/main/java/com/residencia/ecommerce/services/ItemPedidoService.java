@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.residencia.ecommerce.entities.ItemPedido;
+import com.residencia.ecommerce.entities.Pedido;
 import com.residencia.ecommerce.entities.Produto;
+import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
+import com.residencia.ecommerce.repositories.PedidoRepository;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
 
 @Service
@@ -17,6 +20,8 @@ public class ItemPedidoService {
 	ItemPedidoRepository itemPedidoRepository;
 	@Autowired
 	ProdutoRepository produtoRepository;
+	@Autowired
+	PedidoRepository pedidoRepository;
 	
 	public List<ItemPedido> getAllItemPedidos() {
 		List<ItemPedido> itemPedidos = itemPedidoRepository.findAll();
@@ -37,14 +42,37 @@ public class ItemPedidoService {
 	public ItemPedido saveItemPedido(ItemPedido itemPedido) {
 		Integer quantidade = itemPedido.getQuantidade();
 		Produto produto = produtoRepository.findById(itemPedido.getProduto().getIdProduto()).orElse(null);
+		Pedido pedido = pedidoRepository.findById(itemPedido.getPedido().getIdPedido()).orElse(null);
+		if(produto == null) {
+			throw new CustomException("Produto de id: "+itemPedido.getProduto().getIdProduto()+ " não encontrado");
+		}
+		if(pedido == null) {
+			throw new CustomException("Pedido de id: "+itemPedido.getPedido().getIdPedido()+ " não encontrado");
+		}
 		if (produto.getQtdEstoque() >= quantidade) {
-			produto.setQtdEstoque(produto.getQtdEstoque() - quantidade);
-			produtoRepository.save(produto);
-			return itemPedidoRepository.save(itemPedido);
+			
+			ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
+			if(saveItemPedidoResponse != null) {
+				produto.setQtdEstoque(produto.getQtdEstoque() - quantidade);
+				produtoRepository.save(produto);
+				pedido.setValorTotal(pedido.getValorTotal().add(saveItemPedidoResponse.getValorLiquido()));
+				if(itemPedido.getStatus()=="fechado") {
+					pedido.setStatus(itemPedido.getStatus());
+					Pedido savePedidoResponse = pedidoRepository.save(pedido);
+					if(savePedidoResponse == null) {
+						throw new CustomException("Erro ao atualizar o pedido no banco de dados");
+					}
+					return saveItemPedidoResponse;
+					
+				}
+			}else {
+				throw new CustomException("Erro ao salvar o itemPedido no banco de dados");
+			}
 		}
 		else {
-			return itemPedido;
+			throw new CustomException("Estoque insuficiente do produto");
 		}
+		return itemPedido;
 		 
 	}
 	

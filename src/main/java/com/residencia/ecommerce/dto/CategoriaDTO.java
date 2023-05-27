@@ -2,6 +2,10 @@ package com.residencia.ecommerce.dto;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Categoria;
+
 
 public class CategoriaDTO {
 
@@ -20,6 +24,9 @@ private List<ProdutoDTO> produtos;
 public CategoriaDTO() {
 	super();
 
+}
+public CategoriaDTO(Categoria entity) {
+	BeanUtils.copyProperties(entity, this);
 }
 
 

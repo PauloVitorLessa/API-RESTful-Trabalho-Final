@@ -49,7 +49,7 @@ public class Pedido {
 	private String status;
 	
 	@Column(name = "valor_total")
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = new BigDecimal("0.0");
 	
 	@NotNull
 	@ManyToOne //JoinColumn é para quem recebe a chave estrangeira

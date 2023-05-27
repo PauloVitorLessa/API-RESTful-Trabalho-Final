@@ -1,5 +1,8 @@
 package com.residencia.ecommerce.dto;
 
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Endereco;
 
 public class EnderecoDTO {
 	
@@ -36,8 +39,10 @@ public class EnderecoDTO {
 	}
 
 	public EnderecoDTO() {
-		super();
-		
+		super();		
+	}
+	public EnderecoDTO(Endereco entity) {
+		BeanUtils.copyProperties(entity, this);	
 	}
 
 	public Integer getIdEndereco() {

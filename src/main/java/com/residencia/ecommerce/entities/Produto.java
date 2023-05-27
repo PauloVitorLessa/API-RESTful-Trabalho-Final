@@ -46,7 +46,7 @@ public class Produto {
 	private Date dataCadastro;
 	
 	@Column(name = "valor_unitario")
-	private BigDecimal valorUnitario;
+	private BigDecimal valorUnitario = new BigDecimal("0.0");
 	
 	@Column(name = "imagem")
 	private byte[] imagem; 

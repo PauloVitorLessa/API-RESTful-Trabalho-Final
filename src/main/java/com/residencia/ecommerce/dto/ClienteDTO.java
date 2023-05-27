@@ -1,9 +1,11 @@
 package com.residencia.ecommerce.dto;
 
-import java.time.Instant;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Cliente;
 
 
 public class ClienteDTO {
@@ -18,20 +20,20 @@ public class ClienteDTO {
 	
 	private String telefone;
 	
-	private Instant dataNascimento;
+	private Date dataNascimento;
 	
 	private String username;
 	
 	private String password;
 	
-	private Set<RoleDTO> roles = new HashSet<>();
+	private List<RoleDTO> roles;
 
 	private EnderecoDTO endereco; // relacionando a classe endereço com o cliente
 
 	private List<PedidoDTO> pedido; // 1 cliente pode ter N pedidos
 
 	public ClienteDTO(Integer numeroIdCliente, Integer cpf, String nome, String email, String telefone,
-			Instant dataNascimento, String username, String password, Set<RoleDTO> roles, EnderecoDTO endereco,
+			Date dataNascimento, String username, String password, List<RoleDTO> roles, EnderecoDTO endereco,
 			List<PedidoDTO> pedido) {
 		super();
 		this.numeroIdCliente = numeroIdCliente;
@@ -50,6 +52,9 @@ public class ClienteDTO {
 	public ClienteDTO() {
 		super();
 		
+	}
+	public ClienteDTO(Cliente entity) {
+		BeanUtils.copyProperties(entity, this);		
 	}
 
 	public Integer getNumeroIdCliente() {
@@ -92,11 +97,11 @@ public class ClienteDTO {
 		this.telefone = telefone;
 	}
 
-	public Instant getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Instant dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -116,11 +121,11 @@ public class ClienteDTO {
 		this.password = password;
 	}
 
-	public Set<RoleDTO> getRoles() {
+	public List<RoleDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<RoleDTO> roles) {
+	public void setRoles(List<RoleDTO> roles) {
 		this.roles = roles;
 	}
 
@@ -139,6 +144,5 @@ public class ClienteDTO {
 	public void setPedido(List<PedidoDTO> pedido) {
 		this.pedido = pedido;
 	}
-
 	
 }

@@ -1,5 +1,8 @@
 package com.residencia.ecommerce.dto;
 
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Role;
 import com.residencia.ecommerce.entities.RoleEnum;
 
 public class RoleDTO {
@@ -16,6 +19,9 @@ public class RoleDTO {
 
 	public RoleDTO() {
 		super();
+	}
+	public RoleDTO(Role entity) {
+		BeanUtils.copyProperties(entity, this);
 	}
 
 	public Integer getId() {

@@ -1,33 +1,34 @@
 package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
-import com.residencia.ecommerce.entities.Cliente;
+import org.springframework.beans.BeanUtils;
+
+import com.residencia.ecommerce.entities.Pedido;
 
 
 public class PedidoDTO {
 	
 	private Integer idPedido;
 	
-	private Instant dataPedido;
+	private Date dataPedido;
 	
-	private Instant dataEntrega;
+	private Date dataEntrega;
 	
-	private Instant dataEnvio;
+	private Date dataEnvio;
 	
 	private String status;
 	
 	private BigDecimal valorTotal;
 	
-	private Cliente cliente;
+	private ClienteDTO clienteDTO;
 	
-	private Set<ItemPedidoDTO> produtos = new HashSet<>();
+	private List<ItemPedidoDTO> produtos;
 
-	public PedidoDTO(Integer idPedido, Instant dataPedido, Instant dataEntrega, Instant dataEnvio, String status,
-			BigDecimal valorTotal, Cliente cliente, Set<ItemPedidoDTO> produtos) {
+	public PedidoDTO(Integer idPedido, Date dataPedido, Date dataEntrega, Date dataEnvio, String status,
+			BigDecimal valorTotal, ClienteDTO clienteDTO, List<ItemPedidoDTO> produtos) {
 		super();
 		this.idPedido = idPedido;
 		this.dataPedido = dataPedido;
@@ -35,13 +36,15 @@ public class PedidoDTO {
 		this.dataEnvio = dataEnvio;
 		this.status = status;
 		this.valorTotal = valorTotal;
-		this.cliente = cliente;
+		this.clienteDTO = clienteDTO;
 		this.produtos = produtos;
 	}
 
 	public PedidoDTO() {
 		super();
-
+	}
+	public PedidoDTO(Pedido entity) {
+		BeanUtils.copyProperties(entity, this);
 	}
 
 	public Integer getIdPedido() {
@@ -52,27 +55,27 @@ public class PedidoDTO {
 		this.idPedido = idPedido;
 	}
 
-	public Instant getDataPedido() {
+	public Date getDataPedido() {
 		return dataPedido;
 	}
 
-	public void setDataPedido(Instant dataPedido) {
+	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 
-	public Instant getDataEntrega() {
+	public Date getDataEntrega() {
 		return dataEntrega;
 	}
 
-	public void setDataEntrega(Instant dataEntrega) {
+	public void setDataEntrega(Date dataEntrega) {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public Instant getDataEnvio() {
+	public Date getDataEnvio() {
 		return dataEnvio;
 	}
 
-	public void setDataEnvio(Instant dataEnvio) {
+	public void setDataEnvio(Date dataEnvio) {
 		this.dataEnvio = dataEnvio;
 	}
 
@@ -92,22 +95,19 @@ public class PedidoDTO {
 		this.valorTotal = valorTotal;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public ClienteDTO getClienteDTO() {
+		return clienteDTO;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setClienteDTO(ClienteDTO clienteDTO) {
+		this.clienteDTO = clienteDTO;
 	}
 
-	public Set<ItemPedidoDTO> getProdutos() {
+	public List<ItemPedidoDTO> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(Set<ItemPedidoDTO> produtos) {
+	public void setProdutos(List<ItemPedidoDTO> produtos) {
 		this.produtos = produtos;
-	}
-	
-	
-	
+	}	
 }

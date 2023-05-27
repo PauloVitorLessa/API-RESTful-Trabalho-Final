@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.services.ItemPedidoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/itempedidos")
 public class ItemPedidoController {
@@ -42,7 +44,7 @@ public class ItemPedidoController {
     
     
     @PostMapping
-    public ResponseEntity<ItemPedido> saveItemPedido(@RequestBody ItemPedido itemPedido) {
+    public ResponseEntity<ItemPedido> saveItemPedido(@Valid @RequestBody ItemPedido itemPedido) {
         return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido),HttpStatus.CREATED);
     }
     

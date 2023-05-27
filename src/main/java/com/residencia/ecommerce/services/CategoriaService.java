@@ -1,10 +1,17 @@
 package com.residencia.ecommerce.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.residencia.ecommerce.dto.CategoriaDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entities.Categoria;
+import com.residencia.ecommerce.entities.Produto;
+import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.CategoriaRepository;
 
 @Service
@@ -12,31 +19,54 @@ public class CategoriaService {
 	
 	@Autowired
 	CategoriaRepository categoriaRepository;
+	@Autowired
+	ModelMapper modelMapper;
 	
-	public List<Categoria> getAllCategorias() {
-		List<Categoria> categorias = categoriaRepository.findAll();
-				
-		return categorias;
+	public List<CategoriaDTO> getAllCategoriasDTO() {		
+		List<Categoria> listaCategoria = categoriaRepository.findAll();
+		List<CategoriaDTO> listaCategoriaDTO = new ArrayList<>();
+		for (Categoria categoria: listaCategoria) {
+			if(categoria==null)
+				return null;
+			List<Produto> listaProduto = categoria.getProdutos();
+			List<ProdutoDTO> listaProdutoDTO = listaProduto.stream().map(x -> new ProdutoDTO(x)).toList();		
+			CategoriaDTO categoriaDTO = modelMapper.map(categoria, CategoriaDTO.class);
+			categoriaDTO.setProdutos(listaProdutoDTO);
+			listaCategoriaDTO.add(categoriaDTO);
+		}				
+		return listaCategoriaDTO;
 	}
 	
-	public Categoria getCategoriaById(Integer id) {
+	public CategoriaDTO getCategoriaDtoById(Integer id) {
 		Categoria categoria = categoriaRepository.findById(id).orElse(null);
 		
 		if(categoria==null)
 			return null;
-		
-		return categoria;
+		List<Produto> listaProduto = categoria.getProdutos();
+		List<ProdutoDTO> listaProdutoDTO = listaProduto.stream().map(x -> new ProdutoDTO(x)).toList();		
+		CategoriaDTO categoriaDTO = modelMapper.map(categoria, CategoriaDTO.class);
+		categoriaDTO.setProdutos(listaProdutoDTO);
+		return categoriaDTO;
 		
 	}
 	
-	public Categoria saveCategoria(Categoria categoria) {
-		return categoriaRepository.save(categoria);
+	public CategoriaDTO saveCategoriaDTO(CategoriaDTO categoriaDTO) {
+		Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
+		Categoria saveCategoriaResponse = categoriaRepository.save(categoria);
+		if(saveCategoriaResponse == null) {
+			throw new CustomException("Erro ao salvar no banco");
+		}
+		
+		return modelMapper.map(saveCategoriaResponse, CategoriaDTO.class);
+		
 		 
 	}
 	
-	public Categoria updateCategoria(Categoria categoria) {
+	public CategoriaDTO updateCategoriaDTO(CategoriaDTO categoriaDTO) {
 	
-		return categoriaRepository.save(categoria);
+		Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
+		Categoria saveCategoriaResponse = categoriaRepository.save(categoria);
+		return modelMapper.map(saveCategoriaResponse, CategoriaDTO.class);
 		
 		
 	}
