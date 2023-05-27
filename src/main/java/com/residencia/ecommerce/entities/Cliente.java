@@ -34,22 +34,22 @@ public class Cliente {
 	private Integer idCliente;
 	
 	
-	@Column(name = "cpf")
+	@Column(name = "cpf", unique = true)
 	private String cpf;
 	
 	@Column(name = "nome_completo")
 	private String nome;
 	
-	@Column(name = "email")
+	@Column(name = "email", unique = true)
 	private String email;
 	
-	@Column(name = "telefone")
+	@Column(name = "telefone", unique = true)
 	private String telefone;
 	
 	@Column(name = "data_nascimento")
 	private Instant dataNascimento;
 	
-	@Column(name = "user_name")
+	@Column(name = "user_name", unique = true)
 	private String username;
 	
 	@Column(name = "password")

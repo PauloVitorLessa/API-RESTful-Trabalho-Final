@@ -4,14 +4,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.residencia.ecommerce.entities.ItemPedido;
+import com.residencia.ecommerce.entities.Produto;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
+import com.residencia.ecommerce.repositories.ProdutoRepository;
 
 @Service
 public class ItemPedidoService {
 	
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	ProdutoRepository produtoRepository;
 	
 	public List<ItemPedido> getAllItemPedidos() {
 		List<ItemPedido> itemPedidos = itemPedidoRepository.findAll();
@@ -30,7 +35,16 @@ public class ItemPedidoService {
 	}
 	
 	public ItemPedido saveItemPedido(ItemPedido itemPedido) {
-		return itemPedidoRepository.save(itemPedido);
+		Integer quantidade = itemPedido.getQuantidade();
+		Produto produto = produtoRepository.findById(itemPedido.getProduto().getIdProduto()).orElse(null);
+		if (produto.getQtdEstoque() >= quantidade) {
+			produto.setQtdEstoque(produto.getQtdEstoque() - quantidade);
+			produtoRepository.save(produto);
+			return itemPedidoRepository.save(itemPedido);
+		}
+		else {
+			return itemPedido;
+		}
 		 
 	}
 	
