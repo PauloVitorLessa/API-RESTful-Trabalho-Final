@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.Produto;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.services.ProdutoService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/produtos")
@@ -25,35 +27,35 @@ public class ProdutoController {
 	ProdutoService produtoService;
 	
 	@GetMapping
-    public ResponseEntity<List<Produto>> getAllProdutos() {
-        return new ResponseEntity<>(produtoService.getAllProdutos(),
+    public ResponseEntity<List<ProdutoDTO>> getAllProdutosDTO() {
+        return new ResponseEntity<>(produtoService.getAllProdutosDTO(),
                 HttpStatus.OK);
         //ResponseEntity manipula o retorno
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
-        Produto produtoResponse = produtoService.getProdutoById(id);
-        if(null == produtoResponse)
+    public ResponseEntity<ProdutoDTO> getProdutoById(@PathVariable Integer id) {
+        ProdutoDTO produtoDtoResponse = produtoService.getProdutoDtoById(id);
+        if(null == produtoDtoResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(produtoResponse, HttpStatus.OK);
+            return new ResponseEntity<>(produtoDtoResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<Produto> saveProduto(@RequestBody Produto produto) {
-        return new ResponseEntity<>(produtoService.saveProduto(produto),HttpStatus.CREATED);
+    public ResponseEntity<ProdutoDTO> saveProdutoDTO(@Valid @RequestBody ProdutoDTO produtoDTO) {
+        return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto) {
-    	if(produtoService.getProdutoById(produto.getIdProduto()) != null) {
-            return new ResponseEntity<> (produtoService.updateProduto(produto),
+    public ResponseEntity<ProdutoDTO> updateProduto(@Valid @RequestBody ProdutoDTO produtoDTO) {
+    	if(produtoService.getProdutoDtoById(produtoDTO.getIdProduto()) != null) {
+            return new ResponseEntity<> (produtoService.updateProdutoDTO(produtoDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (produto,
+            return new ResponseEntity<> (produtoDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

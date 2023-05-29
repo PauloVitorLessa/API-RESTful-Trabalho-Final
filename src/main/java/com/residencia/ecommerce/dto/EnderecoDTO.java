@@ -1,7 +1,6 @@
 package com.residencia.ecommerce.dto;
 
-import org.springframework.beans.BeanUtils;
-
+import com.residencia.ecommerce.entities.Cliente;
 import com.residencia.ecommerce.entities.Endereco;
 
 public class EnderecoDTO {
@@ -22,10 +21,27 @@ public class EnderecoDTO {
 	
 	private String uf;
 	
-	private ClienteDTO cliente;
+	private Cliente cliente;
+	
+	public EnderecoDTO(Endereco endereco) {
+		super();
+		this.idEndereco = endereco.getIdEndereco();
+		this.cep = endereco.getCep();
+		this.rua = endereco.getRua();
+		this.bairro = endereco.getBairro();
+		this.cidade = endereco.getCidade();
+		this.numero = endereco.getNumero();
+		this.complemento = endereco.getComplemento();
+		this.uf = endereco.getUf();
+		this.cliente = endereco.getCliente();
+	}
+
+	public EnderecoDTO() {
+		super();		
+	}
 
 	public EnderecoDTO(Integer idEndereco, String cep, String rua, String bairro, String cidade, Integer numero,
-			String complemento, String uf, ClienteDTO cliente) {
+			String complemento, String uf, Cliente cliente) {
 		super();
 		this.idEndereco = idEndereco;
 		this.cep = cep;
@@ -36,13 +52,6 @@ public class EnderecoDTO {
 		this.complemento = complemento;
 		this.uf = uf;
 		this.cliente = cliente;
-	}
-
-	public EnderecoDTO() {
-		super();		
-	}
-	public EnderecoDTO(Endereco entity) {
-		BeanUtils.copyProperties(entity, this);	
 	}
 
 	public Integer getIdEndereco() {
@@ -109,13 +118,12 @@ public class EnderecoDTO {
 		this.uf = uf;
 	}
 
-	public ClienteDTO getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(ClienteDTO cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
 	
 }

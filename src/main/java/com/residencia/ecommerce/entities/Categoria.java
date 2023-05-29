@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.residencia.ecommerce.dto.CategoriaDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +35,8 @@ public class Categoria {
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria") 
-	private List<Produto> produtos;
+	private List<Produto> produtos;	
+	
 
 	public Integer getIdCategoria() {
 		return idCategoria;

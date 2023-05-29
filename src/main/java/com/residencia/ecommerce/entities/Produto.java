@@ -1,7 +1,6 @@
 package com.residencia.ecommerce.entities;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -39,9 +37,8 @@ public class Produto {
 	private String descricao;
 	
 	@Column(name = "qtd_estoque")
-	private Integer qtdEstoque;
-	
-	@NotNull
+	private Integer qtdEstoque;	
+
 	@Column(name = "data_cadastro")
 	private Date dataCadastro;
 	
@@ -51,14 +48,13 @@ public class Produto {
 	@Column(name = "imagem")
 	private byte[] imagem; 
 	
-	@ManyToOne 
-	@NotNull
+	@ManyToOne 	
 	@JoinColumn(name = "id_categoria", 
 					referencedColumnName = "id_categoria")
 	private Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto")
-	private List<ItemPedido> pedidos;
+	private List<ItemPedido> itensPedidos;
 
 	public Integer getIdProduto() {
 		return idProduto;
@@ -124,19 +120,11 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	public List<ItemPedido> getPedidos() {
-		return pedidos;
+	public List<ItemPedido> getItensPedidos() {
+		return itensPedidos;
 	}
 
-	public void setPedidos(List<ItemPedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
-	@Override
-	public String toString() {
-		return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
-				+ qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario + ", imagem="
-				+ Arrays.toString(imagem) + ", categoria=" + categoria + ", pedidos=" + pedidos + "]";
-	}
-	
+	public void setItensPedidos(List<ItemPedido> itensPedidos) {
+		this.itensPedidos = itensPedidos;
+	}	
 }

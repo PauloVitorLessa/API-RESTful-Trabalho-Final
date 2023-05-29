@@ -2,9 +2,8 @@ package com.residencia.ecommerce.dto;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
 import com.residencia.ecommerce.entities.Categoria;
+import com.residencia.ecommerce.entities.Produto;
 
 
 public class CategoriaDTO {
@@ -18,19 +17,23 @@ private String nome;
 private String descricao;
 	
 
-private List<ProdutoDTO> produtos;
+private List<Produto> produtos;
 
 
 public CategoriaDTO() {
 	super();
 
 }
-public CategoriaDTO(Categoria entity) {
-	BeanUtils.copyProperties(entity, this);
+public CategoriaDTO(Categoria categoria) {
+	super();
+	this.idCategoria = categoria.getIdCategoria();
+	this.nome = categoria.getNome();
+	this.descricao = categoria.getDescricao();
+	this.produtos = categoria.getProdutos();
+	
 }
 
-
-public CategoriaDTO(Integer idCategoria, String nome, String descricao, List<ProdutoDTO> produtos) {
+public CategoriaDTO(Integer idCategoria, String nome, String descricao, List<Produto> produtos) {
 	super();
 	this.idCategoria = idCategoria;
 	this.nome = nome;
@@ -69,12 +72,12 @@ public void setDescricao(String descricao) {
 }
 
 
-public List<ProdutoDTO> getProdutos() {
+public List<Produto> getProdutos() {
 	return produtos;
 }
 
 
-public void setProdutos(List<ProdutoDTO> produtos) {
+public void setProdutos(List<Produto> produtos) {
 	this.produtos = produtos;
 } 
 	

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.Pedido;
+import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.services.PedidoService;
 
 @RestController
@@ -25,35 +25,35 @@ public class PedidoController {
 	PedidoService pedidoService;
 	
 	@GetMapping
-    public ResponseEntity<List<Pedido>> getAllPedidos() {
-        return new ResponseEntity<>(pedidoService.getAllPedidos(),
+    public ResponseEntity<List<PedidoDTO>> getAllPedidos() {
+        return new ResponseEntity<>(pedidoService.getAllPedidosDTO(),
                 HttpStatus.OK);
         //ResponseEntity manipula o retorno
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id) {
-        Pedido pedidoResponse = pedidoService.getPedidoById(id);
-        if(null == pedidoResponse)
+    public ResponseEntity<PedidoDTO> getPedidoDtoById(@PathVariable Integer id) {
+        PedidoDTO pedidoDtoResponse = pedidoService.getPedidoDtoById(id);
+        if(null == pedidoDtoResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(pedidoResponse, HttpStatus.OK);
+            return new ResponseEntity<>(pedidoDtoResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<Pedido> savePedido(@RequestBody Pedido pedido) {
-        return new ResponseEntity<>(pedidoService.savePedido(pedido),HttpStatus.CREATED);
+    public ResponseEntity<PedidoDTO> savePedidoDTO(@RequestBody PedidoDTO pedidoDTO) {
+        return new ResponseEntity<>(pedidoService.savePedidoDTO(pedidoDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido) {
-    	if(pedidoService.getPedidoById(pedido.getIdPedido()) != null) {
-            return new ResponseEntity<> (pedidoService.updatePedido(pedido),
+    public ResponseEntity<PedidoDTO> updatePedidoDTO(@RequestBody PedidoDTO pedidoDTO) {
+    	if(pedidoService.getPedidoDtoById(pedidoDTO.getIdPedido()) != null) {
+            return new ResponseEntity<> (pedidoService.updatePedidoDTO(pedidoDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (pedido,
+            return new ResponseEntity<> (pedidoDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

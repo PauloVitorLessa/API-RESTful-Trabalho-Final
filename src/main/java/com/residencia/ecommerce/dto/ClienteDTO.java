@@ -3,16 +3,17 @@ package com.residencia.ecommerce.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
 import com.residencia.ecommerce.entities.Cliente;
+import com.residencia.ecommerce.entities.Endereco;
+import com.residencia.ecommerce.entities.Pedido;
+import com.residencia.ecommerce.entities.Role;
 
 
-public class ClienteDTO {
+public class ClienteDTO {	
 	
-	private Integer numeroIdCliente;
+	private Integer IdCliente;
 	
-	private Integer cpf;
+	private String cpf;
 	
 	private String nome;
 	
@@ -26,123 +27,156 @@ public class ClienteDTO {
 	
 	private String password;
 	
-	private List<RoleDTO> roles;
+	private List<Role> roles;
 
-	private EnderecoDTO endereco; // relacionando a classe endereço com o cliente
+	private Endereco endereco; // relacionando a classe endereço com o cliente
 
-	private List<PedidoDTO> pedido; // 1 cliente pode ter N pedidos
+	private List<Pedido> pedidos; // 1 cliente pode ter N pedidos
 
-	public ClienteDTO(Integer numeroIdCliente, Integer cpf, String nome, String email, String telefone,
-			Date dataNascimento, String username, String password, List<RoleDTO> roles, EnderecoDTO endereco,
-			List<PedidoDTO> pedido) {
+	public ClienteDTO(Cliente cliente) {
 		super();
-		this.numeroIdCliente = numeroIdCliente;
-		this.cpf = cpf;
-		this.nome = nome;
-		this.email = email;
-		this.telefone = telefone;
-		this.dataNascimento = dataNascimento;
-		this.username = username;
-		this.password = password;
-		this.roles = roles;
-		this.endereco = endereco;
-		this.pedido = pedido;
+		this.IdCliente = cliente.getIdCliente();
+		this.cpf = cliente.getCpf();
+		this.nome = cliente.getNome();
+		this.email = cliente.getEmail();
+		this.telefone = cliente.getTelefone();
+		this.dataNascimento = cliente.getDataNascimento();
+		this.username = cliente.getUsername();
+		this.password = cliente.getPassword();
+		this.roles = cliente.getRoles();		
+		this.pedidos = cliente.getPedido();		
 	}
+	
 
 	public ClienteDTO() {
 		super();
 		
 	}
-	public ClienteDTO(Cliente entity) {
-		BeanUtils.copyProperties(entity, this);		
+
+
+	public ClienteDTO(Integer idCliente, String cpf, String nome, String email, String telefone, Date dataNascimento,
+			String username, String password, List<Role> roles, Endereco endereco, List<Pedido> pedidos) {
+		super();
+		IdCliente = idCliente;
+		this.cpf = cpf;
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
+		this.endereco = endereco;
+		this.pedidos = pedidos;
 	}
 
-	public Integer getNumeroIdCliente() {
-		return numeroIdCliente;
+
+	public Integer getIdCliente() {
+		return IdCliente;
 	}
 
-	public void setNumeroIdCliente(Integer numeroIdCliente) {
-		this.numeroIdCliente = numeroIdCliente;
+
+	public void setIdCliente(Integer idCliente) {
+		IdCliente = idCliente;
 	}
 
-	public Integer getCpf() {
+
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 
 	public String getNome() {
 		return nome;
 	}
 
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 	public String getTelefone() {
 		return telefone;
 	}
 
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
 
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
+
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
 
 	public String getUsername() {
 		return username;
 	}
 
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public List<RoleDTO> getRoles() {
+
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<RoleDTO> roles) {
+
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
-	public EnderecoDTO getEndereco() {
+
+	public Endereco getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(EnderecoDTO endereco) {
+
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 
-	public List<PedidoDTO> getPedido() {
-		return pedido;
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setPedido(List<PedidoDTO> pedido) {
-		this.pedido = pedido;
-	}
-	
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}	
 }

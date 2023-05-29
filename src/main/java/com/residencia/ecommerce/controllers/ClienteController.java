@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.Cliente;
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.services.ClienteService;
 
 @RestController
@@ -25,15 +25,14 @@ public class ClienteController {
 	ClienteService clienteService;
 	
 	@GetMapping
-    public ResponseEntity<List<Cliente>> getAllClientes() {
-        return new ResponseEntity<>(clienteService.getAllClientes(),
-                HttpStatus.OK);
-        //ResponseEntity manipula o retorno
+    public ResponseEntity<List<ClienteDTO>> getAllClientesDTO() {
+        return new ResponseEntity<>(clienteService.getAllClientesDTO(),
+                HttpStatus.OK);  
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
-        Cliente clienteResponse = clienteService.getClienteById(id);
+    public ResponseEntity<ClienteDTO> getClienteById(@PathVariable Integer id) {
+        ClienteDTO clienteResponse = clienteService.getClienteDtoById(id);
         if(null == clienteResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
@@ -42,18 +41,18 @@ public class ClienteController {
     
     
     @PostMapping
-    public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente) {
-        return new ResponseEntity<>(clienteService.saveCliente(cliente),HttpStatus.CREATED);
+    public ResponseEntity<ClienteDTO> saveClienteDTO(@RequestBody ClienteDTO clienteDTO) {
+        return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
-    	if(clienteService.getClienteById(cliente.getIdCliente()) != null) {
-            return new ResponseEntity<> (clienteService.updateCliente(cliente),
+    public ResponseEntity<ClienteDTO> updateCliente(@RequestBody ClienteDTO clienteDTO) {
+    	if(clienteService.getClienteDtoById(clienteDTO.getIdCliente()) != null) {
+            return new ResponseEntity<> (clienteService.updateClienteDTO(clienteDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (cliente,
+            return new ResponseEntity<> (clienteDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

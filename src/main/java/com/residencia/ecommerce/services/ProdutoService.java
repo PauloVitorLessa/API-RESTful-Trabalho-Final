@@ -2,9 +2,13 @@ package com.residencia.ecommerce.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entities.Produto;
+import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
 
 @Service
@@ -13,33 +17,39 @@ public class ProdutoService {
 	@Autowired
 	ProdutoRepository produtoRepository;
 	
-	public List<Produto> getAllProdutos() {
+	@Autowired
+	ModelMapper modelMapper;
+	
+	public List<ProdutoDTO> getAllProdutosDTO() {
 		List<Produto> produtos = produtoRepository.findAll();
-				
-		return produtos;
+		List<ProdutoDTO> listaProdutoDTO = produtos.stream().map(x -> new ProdutoDTO(x)).toList();						
+		return listaProdutoDTO;
 	}
 	
-	public Produto getProdutoById(Integer id) {
-		Produto produto = produtoRepository.findById(id).orElse(null);
-		
+	public ProdutoDTO getProdutoDtoById(Integer id) {
+		Produto produto = produtoRepository.findById(id).orElse(null);		
 		if(produto==null)
-			return null;
-		
-		return produto;
-		
+			return null;		
+		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);		
+		return produtoDTO;		
 	}
 	
-	public Produto saveProduto(Produto produto) {	
+	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {	
+		Produto produto = modelMapper.map(produtoDTO, Produto.class);	
+		Produto saveProdResponse =  produtoRepository.save(produto);
 		
-		return produtoRepository.save(produto);
-		 
+		if(saveProdResponse == null) {
+			throw new CustomException("Erro ao salvar no banco");
+		}
+		
+		return modelMapper.map(saveProdResponse, ProdutoDTO.class);		 
 	}
 	
-	public Produto updateProduto(Produto produto) {
+	public ProdutoDTO updateProdutoDTO(ProdutoDTO produtoDTO) {
 	
-		return produtoRepository.save(produto);
-		
-		
+		Produto produto = modelMapper.map(produtoDTO, Produto.class);
+		Produto saveProdResponse = produtoRepository.save(produto);
+		return modelMapper.map(saveProdResponse, ProdutoDTO.class);		
 	}
 	
 	   public Boolean delProduto(Integer id) {
@@ -53,6 +63,4 @@ public class ProdutoService {
 		    else return false;
 	    	  
 	      }
-	
-
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.Endereco;
+import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.services.EnderecoService;
 
 @RestController
@@ -25,35 +25,35 @@ public class EnderecoController {
 	EnderecoService enderecoService;
 	
 	@GetMapping
-    public ResponseEntity<List<Endereco>> getAllEnderecos() {
-        return new ResponseEntity<>(enderecoService.getAllEnderecos(),
-                HttpStatus.OK);
-        //ResponseEntity manipula o retorno
+    public ResponseEntity<List<EnderecoDTO>> getAllEnderecos() {
+        return new ResponseEntity<>(enderecoService.getAllEnderecosDTO(),
+                HttpStatus.OK);       
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
-        Endereco enderecoResponse = enderecoService.getEnderecoById(id);
-        if(null == enderecoResponse)
+    public ResponseEntity<EnderecoDTO> getEnderecoDtoById(@PathVariable Integer id) {
+        EnderecoDTO enderecoDtoResponse = enderecoService.getEnderecoDtoById(id);
+        
+        if(null == enderecoDtoResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(enderecoResponse, HttpStatus.OK);
+            return new ResponseEntity<>(enderecoDtoResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<Endereco> saveEndereco(@RequestBody Endereco endereco) {
-        return new ResponseEntity<>(enderecoService.saveEndereco(endereco),HttpStatus.CREATED);
+    public ResponseEntity<EnderecoDTO> saveEnderecoDTO(@RequestBody EnderecoDTO enderecoDTO) {
+        return new ResponseEntity<>(enderecoService.saveEnderecoDTO(enderecoDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco) {
-    	if(enderecoService.getEnderecoById(endereco.getIdEndereco()) != null) {
-            return new ResponseEntity<> (enderecoService.updateEndereco(endereco),
+    public ResponseEntity<EnderecoDTO> updateEndereco(@RequestBody EnderecoDTO enderecoDTO) {
+    	if(enderecoService.getEnderecoDtoById(enderecoDTO.getIdEndereco()) != null) {
+            return new ResponseEntity<> (enderecoService.updateEnderecoDTO(enderecoDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (endereco,
+            return new ResponseEntity<> (enderecoDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

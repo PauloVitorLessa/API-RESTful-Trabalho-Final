@@ -2,6 +2,7 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.entities.ItemPedido;
+import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.services.ItemPedidoService;
 
 import jakarta.validation.Valid;
@@ -26,36 +27,40 @@ public class ItemPedidoController {
 	@Autowired
 	ItemPedidoService itemPedidoService;
 	
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@GetMapping
-    public ResponseEntity<List<ItemPedido>> getAllItemPedidos() {
-        return new ResponseEntity<>(itemPedidoService.getAllItemPedidos(),
+    public ResponseEntity<List<ItemPedidoDTO>> getAllItemPedidosDTO() {
+        return new ResponseEntity<>(itemPedidoService.getAllItemPedidosDTO(),
                 HttpStatus.OK);
         //ResponseEntity manipula o retorno
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<ItemPedido> getItemPedidoById(@PathVariable Integer id) {
-        ItemPedido itemPedidoResponse = itemPedidoService.getItemPedidoById(id);
-        if(null == itemPedidoResponse)
+    public ResponseEntity<ItemPedidoDTO> getItemPedidoDtoById(@PathVariable Integer id) {
+        ItemPedidoDTO itemPedidoDTOResponse = itemPedidoService.getItemPedidoDtoById(id);
+        if(null == itemPedidoDTOResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(itemPedidoResponse, HttpStatus.OK);
+            return new ResponseEntity<>(itemPedidoDTOResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<ItemPedido> saveItemPedido(@Valid @RequestBody ItemPedido itemPedido) {
-        return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido),HttpStatus.CREATED);
+    public ResponseEntity<ItemPedidoDTO> saveItemPedidoDTO(@Valid @RequestBody ItemPedidoDTO itemPedidoDTO) {
+       
+    	return new ResponseEntity<>(itemPedidoService.saveItemPedidoDTO(itemPedidoDTO),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<ItemPedido> updateItemPedido(@RequestBody ItemPedido itemPedido) {
-    	if(itemPedidoService.getItemPedidoById(itemPedido.getIdItemPedido()) != null) {
-            return new ResponseEntity<> (itemPedidoService.updateItemPedido(itemPedido),
+    public ResponseEntity<ItemPedidoDTO> updateItemPedidoDTO(@Valid @RequestBody ItemPedidoDTO itemPedidoDTO) {
+    	if(itemPedidoService.getItemPedidoDtoById(itemPedidoDTO.getIdItemPedido()) != null) {
+            return new ResponseEntity<> (itemPedidoService.updateItemPedidoDTO(itemPedidoDTO),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (itemPedido,
+            return new ResponseEntity<> (itemPedidoDTO,
                     HttpStatus.NOT_FOUND);
         }
     }

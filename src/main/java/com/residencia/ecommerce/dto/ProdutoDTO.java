@@ -4,10 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
+import com.residencia.ecommerce.entities.Categoria;
+import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Produto;
-
 
 
 public class ProdutoDTO {
@@ -26,12 +25,26 @@ public class ProdutoDTO {
 
 	private byte[] imagem; 
 
-	private CategoriaDTO categoriaDTO;
+	private Categoria categoria;
 	
-	private List<ItemPedidoDTO> pedidos;
+	private List<ItemPedido> itensPedidos;
+	
+	public ProdutoDTO(Produto produto) {
+		super();
+		this.idProduto = produto.getIdProduto();
+		this.nome = produto.getNome();
+		this.descricao = produto.getDescricao();
+		this.qtdEstoque = produto.getQtdEstoque();
+		this.dataCadastro = produto.getDataCadastro();
+		this.valorUnitario = produto.getValorUnitario();
+		this.imagem = produto.getImagem();
+		this.categoria = produto.getCategoria();
+		this.itensPedidos = produto.getItensPedidos();
+		
+	}
 
 	public ProdutoDTO(Integer idProduto, String nome, String descricao, Integer qtdEstoque, Date dataCadastro,
-			BigDecimal valorUnitario, byte[] imagem, CategoriaDTO categoriaDTO, List<ItemPedidoDTO> pedidos) {
+			BigDecimal valorUnitario, byte[] imagem, Categoria categoria, List<ItemPedido> itensPedidos) {
 		super();
 		this.idProduto = idProduto;
 		this.nome = nome;
@@ -40,16 +53,14 @@ public class ProdutoDTO {
 		this.dataCadastro = dataCadastro;
 		this.valorUnitario = valorUnitario;
 		this.imagem = imagem;
-		this.categoriaDTO = categoriaDTO;
-		this.pedidos = pedidos;
+		this.categoria = categoria;
+		this.itensPedidos = itensPedidos;
 	}
 
 	public ProdutoDTO() {
 		super();		
 	}
-	public ProdutoDTO(Produto entity){
-		BeanUtils.copyProperties(entity, this);	
-	}
+	
 
 	public Integer getIdProduto() {
 		return idProduto;
@@ -107,19 +118,19 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
-	public CategoriaDTO getCategoriaDTO() {
-		return categoriaDTO;
+	public Categoria getCategoriaDTO() {
+		return categoria;
 	}
 
-	public void setCategoriaDTO(CategoriaDTO categoriaDTO) {
-		this.categoriaDTO = categoriaDTO;
+	public void setCategoriaDTO(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
-	public List<ItemPedidoDTO> getPedidos() {
-		return pedidos;
+	public List<ItemPedido> getItensPedidos() {
+		return itensPedidos;
 	}
 
-	public void setPedidos(List<ItemPedidoDTO> pedidos) {
-		this.pedidos = pedidos;
+	public void setItensPedidos(List<ItemPedido> itensPedidos) {
+		this.itensPedidos = itensPedidos;
 	}	
 }

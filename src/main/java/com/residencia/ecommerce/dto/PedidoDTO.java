@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
+import com.residencia.ecommerce.entities.Cliente;
+import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Pedido;
 
 
-public class PedidoDTO {
-	
+public class PedidoDTO {	
+		
 	private Integer idPedido;
 	
 	private Date dataPedido;
@@ -23,12 +23,29 @@ public class PedidoDTO {
 	
 	private BigDecimal valorTotal;
 	
-	private ClienteDTO clienteDTO;
+	private Cliente cliente;
 	
-	private List<ItemPedidoDTO> produtos;
+	private List<ItemPedido> itensPedidos;
+	
+	public PedidoDTO(Pedido pedido) {
+		
+		this.idPedido = pedido.getIdPedido();
+		this.dataPedido =pedido.getDataPedido();
+		this.dataEntrega = pedido.getDataEntrega();
+		this.dataEnvio = pedido.getDataEnvio();
+		this.status = pedido.getStatus();
+		this.valorTotal = pedido.getValorTotal();
+		this.cliente = pedido.getCliente();
+		this.itensPedidos = pedido.getItensPedidos();
+		
+	}	
+
+	public PedidoDTO() {
+		super();
+	}
 
 	public PedidoDTO(Integer idPedido, Date dataPedido, Date dataEntrega, Date dataEnvio, String status,
-			BigDecimal valorTotal, ClienteDTO clienteDTO, List<ItemPedidoDTO> produtos) {
+			BigDecimal valorTotal, Cliente cliente, List<ItemPedido> itensPedidos) {
 		super();
 		this.idPedido = idPedido;
 		this.dataPedido = dataPedido;
@@ -36,15 +53,8 @@ public class PedidoDTO {
 		this.dataEnvio = dataEnvio;
 		this.status = status;
 		this.valorTotal = valorTotal;
-		this.clienteDTO = clienteDTO;
-		this.produtos = produtos;
-	}
-
-	public PedidoDTO() {
-		super();
-	}
-	public PedidoDTO(Pedido entity) {
-		BeanUtils.copyProperties(entity, this);
+		this.cliente = cliente;
+		this.itensPedidos = itensPedidos;
 	}
 
 	public Integer getIdPedido() {
@@ -95,19 +105,19 @@ public class PedidoDTO {
 		this.valorTotal = valorTotal;
 	}
 
-	public ClienteDTO getClienteDTO() {
-		return clienteDTO;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setClienteDTO(ClienteDTO clienteDTO) {
-		this.clienteDTO = clienteDTO;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public List<ItemPedidoDTO> getProdutos() {
-		return produtos;
+	public List<ItemPedido> getItensPedidos() {
+		return itensPedidos;
 	}
 
-	public void setProdutos(List<ItemPedidoDTO> produtos) {
-		this.produtos = produtos;
-	}	
+	public void setItensPedidos(List<ItemPedido> itensPedidos) {
+		this.itensPedidos = itensPedidos;
+	}		
 }
