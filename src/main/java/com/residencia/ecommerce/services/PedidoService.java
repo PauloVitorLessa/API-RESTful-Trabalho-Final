@@ -1,6 +1,7 @@
 package com.residencia.ecommerce.services;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,7 @@ public class PedidoService {
 	public PedidoDTO savePedidoDTO(PedidoDTO pedidoDTO) {
 		Pedido pedido = modelMapper.map(pedidoDTO, Pedido.class);
 		pedido.setValorTotal(new BigDecimal("0.0"));
+		pedido.setDataPedido(new Date());
 		Pedido savePedidoResponse = pedidoRepository.save(pedido);
 		if(savePedidoResponse == null) {
 			throw new CustomException("Erro ao salvar no banco");

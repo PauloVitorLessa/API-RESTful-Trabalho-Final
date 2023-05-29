@@ -32,7 +32,7 @@ public class Pedido {
 	@Column(name = "id_pedido")
 	private Integer idPedido;
 	
-	@NotNull
+	
 	@Column(name = "data_pedido")
 	private Date dataPedido;
 	
