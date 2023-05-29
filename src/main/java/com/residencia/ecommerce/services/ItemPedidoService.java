@@ -128,7 +128,7 @@ public class ItemPedidoService {
 				RelatorioDTO relatorioDTO = new RelatorioDTO(pedido.getIdPedido(),
 						pedido.getDataPedido(), pedido.getValorTotal(),
 						listaRes);					
-				emailService.enviarEmail("paulo.vitor.lessa@gmail.com", ("Pedido número: "
+				emailService.enviarEmail("grupo6api23.1@gmail.com", ("Pedido número: "
 				+pedido.getIdPedido()),relatorioDTO.relatorio());		
 	   }
 }
