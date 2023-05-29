@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -35,7 +36,18 @@ public class ProdutoService {
 	}
 	
 	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {	
-		Produto produto = modelMapper.map(produtoDTO, Produto.class);	
+		Produto produto = modelMapper.map(produtoDTO, Produto.class);
+		List<Produto> listaProduto = produtoRepository.findAll();
+		for(Produto prod:listaProduto){
+			if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
+				throw new CustomException("Já existe um produto com este nome");
+			}
+			if(prod.getDescricao().toLowerCase().equals(produto.getDescricao().toLowerCase())) {
+				throw new CustomException("Já existe um produto com esta descrição");
+			}
+				
+		}
+		produto.setDataCadastro(new Date());
 		Produto saveProdResponse =  produtoRepository.save(produto);
 		
 		if(saveProdResponse == null) {
