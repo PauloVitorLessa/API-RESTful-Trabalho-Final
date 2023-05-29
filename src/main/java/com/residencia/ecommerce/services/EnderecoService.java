@@ -1,12 +1,16 @@
 package com.residencia.ecommerce.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.residencia.ecommerce.dto.EnderecoDTO;
+import com.residencia.ecommerce.dto.EnderecoAPIDTO;
 import com.residencia.ecommerce.entities.Endereco;
 import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.EnderecoRepository;
@@ -34,13 +38,19 @@ public class EnderecoService {
 	}
 	
 	public EnderecoDTO saveEnderecoDTO(EnderecoDTO enderecoDTO) {
+		EnderecoAPIDTO enderecoAPIDTO = consultaEnderecoAPIDTO(enderecoDTO.getCep());	
 		Endereco endereco = modelMapper.map(enderecoDTO, Endereco.class);
+		endereco.setBairro(enderecoAPIDTO.getBairro());
+		endereco.setCidade(enderecoAPIDTO.getLocalidade());
+		endereco.setComplemento(enderecoAPIDTO.getComplemento());
+		endereco.setUf(enderecoAPIDTO.getUf());
+		endereco.setRua(enderecoAPIDTO.getLogradouro());
 		Endereco saveEnderecoResponse = enderecoRepository.save(endereco);
 		if(saveEnderecoResponse == null) {
 			throw new CustomException("Erro ao salvar no banco");
 		}
 		
-		return modelMapper.map(saveEnderecoResponse, EnderecoDTO.class);		 
+		return modelMapper.map(saveEnderecoResponse, EnderecoDTO.class);
 	}
 	
 	public EnderecoDTO updateEnderecoDTO(EnderecoDTO enderecoDTO) {
@@ -61,4 +71,15 @@ public class EnderecoService {
 		    else return false;
 	    	  
 	      }
+	   private EnderecoAPIDTO consultaEnderecoAPIDTO(String cep) {
+			
+			RestTemplate restTemplate = new RestTemplate();
+			String uri = "https://viacep.com.br/ws/{cep}/json/";
+			
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("cep", cep);
+			
+			EnderecoAPIDTO enderecoAPIDTO = restTemplate.getForObject(uri, EnderecoAPIDTO.class, params);		
+			return enderecoAPIDTO;
+		}
 }

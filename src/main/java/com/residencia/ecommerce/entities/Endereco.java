@@ -30,15 +30,15 @@ public class Endereco {
 	@Column(name = "cep")
 	private String cep;
 	
-	@NotNull
+	
 	@Column(name = "rua")
 	private String rua;
 	
-	@NotNull
+	
 	@Column(name = "bairro")
 	private String bairro;
 	
-	@NotNull
+	
 	@Column(name = "cidade")
 	private String cidade;
 	
@@ -46,11 +46,11 @@ public class Endereco {
 	@Column(name = "numero")
 	private Integer numero;
 	
-	@NotNull
+	
 	@Column(name = "complemento")
 	private String complemento;
 	
-	@NotNull
+	
 	@Column(name = "uf")
 	private String uf;
 	
