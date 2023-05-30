@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.services.ProdutoService;
 
+import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -42,10 +46,19 @@ public class ProdutoController {
             return new ResponseEntity<>(produtoDtoResponse, HttpStatus.OK);
     }
     
-    
-    @PostMapping
-    public ResponseEntity<ProdutoDTO> saveProdutoDTO(@Valid @RequestBody ProdutoDTO produtoDTO) {
-        return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);
+    //@PostMapping
+    //public ResponseEntity<ProdutoDTO> saveProdutoDTO(@Valid @RequestBody ProdutoDTO produtoDTO) {
+        //return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);
+    //}
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<ProdutoDTO> saveLivroDTO(@RequestPart("produtoDTO") String produtoDTO,
+   		@RequestPart("source") MultipartFile file) throws IOException{
+    		
+    		ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
+    			if(null == novoProdutoDTO)
+    				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    			else
+    				return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
     
     @PutMapping
@@ -70,6 +83,7 @@ public class ProdutoController {
     }
 
 }
+
 
 
 

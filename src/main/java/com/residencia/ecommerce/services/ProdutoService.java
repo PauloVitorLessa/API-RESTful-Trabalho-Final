@@ -1,16 +1,22 @@
 package com.residencia.ecommerce.services;
 
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entities.Produto;
 import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
+
+import io.jsonwebtoken.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProdutoService {
@@ -35,8 +41,14 @@ public class ProdutoService {
 		return produtoDTO;		
 	}
 	
-	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {	
+	public ProdutoDTO saveProdutoDTO(String produtoDTO, MultipartFile file) {	
 		Produto produto = modelMapper.map(produtoDTO, Produto.class);
+		try {
+		produto.setImagem(file.getBytes());
+		}catch(java.io.IOException e) {
+			System.out.printf("Ocorreu um erro ao tentar converter a imagem",
+					e.toString());	 
+		}
 		List<Produto> listaProduto = produtoRepository.findAll();
 		for(Produto prod:listaProduto){
 			if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
