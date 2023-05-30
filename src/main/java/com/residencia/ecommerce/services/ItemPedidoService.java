@@ -103,12 +103,12 @@ public class ItemPedidoService {
 	
 		ItemPedido itemPedido = modelMapper.map(itemPedidoDTO, ItemPedido.class);
 		ItemPedido itemPedidoId = itemPedidoRepository.findById(itemPedido.getIdItemPedido()).orElse(null);
-			if(itemPedidoId == null)
+			if(itemPedidoId == null) {
 				throw new CustomException("ItemPedido de Id: "+ itemPedido.getIdItemPedido()+" não encontrado");
-			
-			if(itemPedidoId.getStatus().equals("fechado"))
+			}
+			if(itemPedidoId.getStatus().equals("fechado")) {
 				throw new CustomException("Pedido de Id: "+ itemPedidoId.getPedido().getIdPedido()+" já está fechado");
-		
+			}
 		ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
 		return modelMapper.map(saveItemPedidoResponse, ItemPedidoDTO.class);	
 		
