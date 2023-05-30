@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +20,6 @@ import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.services.ProdutoService;
 
 import io.jsonwebtoken.io.IOException;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/produtos")
@@ -58,7 +56,7 @@ public class ProdutoController {
     }
     
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<ProdutoDTO> saveLivroDTO(@RequestPart("produtoDTO") String produtoDTO,
+    public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
    		@RequestPart("source") MultipartFile file) throws IOException{
     		
     		ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
@@ -68,14 +66,16 @@ public class ProdutoController {
     				return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
     
-    @PutMapping
-    public ResponseEntity<ProdutoDTO> updateProduto(@Valid @RequestBody ProdutoDTO produtoDTO) {
-    	if(produtoService.getProdutoDtoById(produtoDTO.getIdProduto()) != null) {
-            return new ResponseEntity<> (produtoService.updateProdutoDTO(produtoDTO),
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<ProdutoDTO> updateProduto(@RequestPart("produtoDTO") String produtoDTO,
+       		@RequestPart("source") MultipartFile file) throws IOException {
+    	ProdutoDTO novoProdutoDTO = produtoService.updateProdutoDTO(produtoDTO, file);
+    	if(novoProdutoDTO!= null) {
+            return new ResponseEntity<> (novoProdutoDTO,
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (produtoDTO,
+            return new ResponseEntity<> ( null,
                     HttpStatus.NOT_FOUND);
         }
     }
