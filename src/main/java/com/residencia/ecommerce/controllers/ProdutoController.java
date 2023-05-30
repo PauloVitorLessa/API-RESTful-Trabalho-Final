@@ -46,10 +46,17 @@ public class ProdutoController {
             return new ResponseEntity<>(produtoDtoResponse, HttpStatus.OK);
     }
     
-    //@PostMapping
-    //public ResponseEntity<ProdutoDTO> saveProdutoDTO(@Valid @RequestBody ProdutoDTO produtoDTO) {
-        //return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);
-    //}
+    @GetMapping("/{id}/img")
+    public ResponseEntity<?> getProdutoImg(@PathVariable Integer id) {
+        byte[] img = produtoService.getProdutoImg(id);
+        if(null == img)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else
+            return ResponseEntity.status(HttpStatus.OK)
+            		.contentType(MediaType.valueOf("image/jpg"))
+            		.body(img);
+    }
+    
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<ProdutoDTO> saveLivroDTO(@RequestPart("produtoDTO") String produtoDTO,
    		@RequestPart("source") MultipartFile file) throws IOException{

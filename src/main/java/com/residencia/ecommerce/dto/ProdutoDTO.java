@@ -27,10 +27,12 @@ public class ProdutoDTO {
 
 	private Categoria categoria;
 	
-	private List<ItemPedido> itensPedidos;
-	
+	private List<ItemPedido> itensPedidos;	
+
+	public ProdutoDTO() {
+		super();		
+	}
 	public ProdutoDTO(Produto produto) {
-		super();
 		this.idProduto = produto.getIdProduto();
 		this.nome = produto.getNome();
 		this.descricao = produto.getDescricao();
@@ -40,7 +42,6 @@ public class ProdutoDTO {
 		this.imagem = produto.getImagem();
 		this.categoria = produto.getCategoria();
 		this.itensPedidos = produto.getItensPedidos();
-		
 	}
 
 	public ProdutoDTO(Integer idProduto, String nome, String descricao, Integer qtdEstoque, Date dataCadastro,
@@ -56,11 +57,6 @@ public class ProdutoDTO {
 		this.categoria = categoria;
 		this.itensPedidos = itensPedidos;
 	}
-
-	public ProdutoDTO() {
-		super();		
-	}
-	
 
 	public Integer getIdProduto() {
 		return idProduto;
@@ -118,11 +114,11 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
-	public Categoria getCategoriaDTO() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoriaDTO(Categoria categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
@@ -132,5 +128,5 @@ public class ProdutoDTO {
 
 	public void setItensPedidos(List<ItemPedido> itensPedidos) {
 		this.itensPedidos = itensPedidos;
-	}	
+	}
 }

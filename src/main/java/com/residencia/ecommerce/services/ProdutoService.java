@@ -1,6 +1,5 @@
 package com.residencia.ecommerce.services;
 
-import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -9,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entities.Produto;
 import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
-
-import io.jsonwebtoken.io.IOException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProdutoService {
@@ -42,31 +40,41 @@ public class ProdutoService {
 	}
 	
 	public ProdutoDTO saveProdutoDTO(String produtoDTO, MultipartFile file) {	
-		Produto produto = modelMapper.map(produtoDTO, Produto.class);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-		produto.setImagem(file.getBytes());
-		}catch(java.io.IOException e) {
-			System.out.printf("Ocorreu um erro ao tentar converter a imagem",
-					e.toString());	 
-		}
-		List<Produto> listaProduto = produtoRepository.findAll();
-		for(Produto prod:listaProduto){
-			if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
-				throw new CustomException("Já existe um produto com este nome");
-			}
-			if(prod.getDescricao().toLowerCase().equals(produto.getDescricao().toLowerCase())) {
-				throw new CustomException("Já existe um produto com esta descrição");
-			}
-				
-		}
-		produto.setDataCadastro(new Date());
-		Produto saveProdResponse =  produtoRepository.save(produto);
+			ProdutoDTO prodDTO = objectMapper.readValue(produtoDTO, ProdutoDTO.class);
 		
-		if(saveProdResponse == null) {
-			throw new CustomException("Erro ao salvar no banco");
-		}
+			Produto produto = modelMapper.map(prodDTO, Produto.class);		
+			try {
+				produto.setImagem(file.getBytes());
+			}catch(java.io.IOException e) {
+				throw new CustomException("Ocorreu um erro ao tentar converter a imagem");			 
+			}
+			List<Produto> listaProduto = produtoRepository.findAll();
+			for(Produto prod:listaProduto){
+				if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
+					throw new CustomException("Já existe um produto com este nome");
+				}
+				if(prod.getDescricao().toLowerCase().equals(produto.getDescricao().toLowerCase())) {
+					throw new CustomException("Já existe um produto com esta descrição");
+				}				
+			}
+			produto.setDataCadastro(new Date());
+			Produto saveProdResponse =  produtoRepository.save(produto);
 		
-		return modelMapper.map(saveProdResponse, ProdutoDTO.class);		 
+			if(saveProdResponse == null) {
+				throw new CustomException("Erro ao salvar no banco");
+			}		
+			return modelMapper.map(saveProdResponse, ProdutoDTO.class);	
+		
+		} catch (JsonMappingException e) {
+			System.out.println(e.toString()); 
+			throw new CustomException("Erro ao Converter O Json para ProtudoDTO.class");
+			
+		} catch (JsonProcessingException e) {			
+			throw new CustomException("Erro ao Converter O Json para ProtudoDTO.class");
+		}			 
 	}
 	
 	public ProdutoDTO updateProdutoDTO(ProdutoDTO produtoDTO) {
@@ -87,4 +95,11 @@ public class ProdutoService {
 		    else return false;
 	    	  
 	      }
+	   public byte[] getProdutoImg(Integer id) {
+		   Produto produto = produtoRepository.findById(id).orElse(null);
+		   if(produto==null) {
+			   throw new CustomException("Produto de id: "+id+" não encontrado");
+		   }
+		   return produto.getImagem();
+	   }
 }
