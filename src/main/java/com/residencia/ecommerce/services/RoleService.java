@@ -36,7 +36,8 @@ public class RoleService {
 	}
 	
 	public RoleDTO saveRoleDTO(RoleDTO roleDTO) {
-		Role role = modelMapper.map(roleDTO, Role.class);
+		Role role = modelMapper.map(roleDTO, Role.class);		
+		role.setName(roleDTO.getName());
 		Role saveRoleResponse = roleRepository.save(role);
 		if(saveRoleResponse == null) {
 			throw new CustomException("Erro ao salvar no banco");

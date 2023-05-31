@@ -7,6 +7,7 @@ public class RoleDTO {
 	
 	private Integer id;
 
+	
 	private RoleEnum name;
 
 	public RoleDTO(Integer id, RoleEnum name) {

@@ -2,6 +2,7 @@ package com.residencia.ecommerce.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.residencia.ecommerce.entities.Cliente;
 import com.residencia.ecommerce.entities.Endereco;
@@ -27,7 +28,9 @@ public class ClienteDTO {
 	
 	private String password;
 	
-	private List<Role> roles;
+	private Set<Role> roles;
+	
+	private Set<String> strRoles;
 
 	private Endereco endereco; // relacionando a classe endereço com o cliente
 
@@ -55,7 +58,8 @@ public class ClienteDTO {
 
 
 	public ClienteDTO(Integer idCliente, String cpf, String nome, String email, String telefone, Date dataNascimento,
-			String username, String password, List<Role> roles, Endereco endereco, List<Pedido> pedidos) {
+			String username, String password, Set<Role> roles, Set<String> strRoles, Endereco endereco,
+			List<Pedido> pedidos) {
 		super();
 		IdCliente = idCliente;
 		this.cpf = cpf;
@@ -66,6 +70,7 @@ public class ClienteDTO {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
+		this.strRoles = strRoles;
 		this.endereco = endereco;
 		this.pedidos = pedidos;
 	}
@@ -151,13 +156,23 @@ public class ClienteDTO {
 	}
 
 
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+
+	public Set<String> getStrRoles() {
+		return strRoles;
+	}
+
+
+	public void setStrRoles(Set<String> strRoles) {
+		this.strRoles = strRoles;
 	}
 
 
@@ -179,4 +194,5 @@ public class ClienteDTO {
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}	
+		
 }
