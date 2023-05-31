@@ -60,15 +60,17 @@ public class ItemPedidoService {
 		if(pedido == null) {
 			throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " não encontrado");
 		}
-		if(!pedido.getStatus().equals("aberto")) {
+		if(!pedido.getStatus().toLowerCase().equals("aberto")) {
 			throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " Não tem o status 'aberto'");
 		}
 		
 		if (produto.getQtdEstoque() >= quantidade) {			
 			itemPedidoDTO.setPedido(pedido);
 			itemPedidoDTO.setProduto(produto);
-			itemPedidoDTO.setPrecoVenda(produto.getValorUnitario());
-			itemPedidoDTO.setValorBruto(produto.getValorUnitario().multiply(BigDecimal.valueOf(quantidade)));
+			if(null == itemPedidoDTO.getPrecoVenda()) {
+				itemPedidoDTO.setPrecoVenda(produto.getValorUnitario());
+			}			
+			itemPedidoDTO.setValorBruto(itemPedidoDTO.getPrecoVenda().multiply(BigDecimal.valueOf(quantidade)));
 			itemPedidoDTO.setValorLiquido(itemPedidoDTO.getValorBruto().subtract(itemPedidoDTO.getValorBruto().multiply(itemPedidoDTO.getPercentualDesconto())));			
 			ItemPedido itemPedido = modelMapper.map(itemPedidoDTO, ItemPedido.class);
 			ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
@@ -82,7 +84,7 @@ public class ItemPedidoService {
 					throw new CustomException("Erro ao atualizar o pedido no banco de dados");
 				}
 				
-				if (savePedidoResponse.getStatus().equals("fechado")) {
+				if (savePedidoResponse.getStatus().toLowerCase().equals("fechado")) {
 					
 					this.enviaRelatorio(savePedidoResponse);
 		    	}			
@@ -101,17 +103,68 @@ public class ItemPedidoService {
 	
 	public ItemPedidoDTO updateItemPedidoDTO(ItemPedidoDTO itemPedidoDTO) {
 	
-		ItemPedido itemPedido = modelMapper.map(itemPedidoDTO, ItemPedido.class);
-		ItemPedido itemPedidoId = itemPedidoRepository.findById(itemPedido.getIdItemPedido()).orElse(null);
+			ItemPedido itemPedidoId = itemPedidoRepository.findById(itemPedidoDTO.getIdItemPedido()).orElse(null);
 			if(itemPedidoId == null) {
-				throw new CustomException("ItemPedido de Id: "+ itemPedido.getIdItemPedido()+" não encontrado");
+				throw new CustomException("ItemPedido de Id: "+ itemPedidoDTO.getIdItemPedido()+" não encontrado");
 			}
-			if(itemPedidoId.getStatus().equals("fechado")) {
+			if(itemPedidoId.getStatus().toLowerCase().equals("fechado")) {
 				throw new CustomException("Pedido de Id: "+ itemPedidoId.getPedido().getIdPedido()+" já está fechado");
 			}
-		ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
-		return modelMapper.map(saveItemPedidoResponse, ItemPedidoDTO.class);	
-		
+			
+			Integer quantidade = itemPedidoDTO.getQuantidade();
+			Produto produto = produtoRepository.findById(itemPedidoDTO.getProduto().getIdProduto()).orElse(null);
+			Pedido pedido = pedidoRepository.findById(itemPedidoDTO.getPedido().getIdPedido()).orElse(null);
+			if(produto == null) {
+				throw new CustomException("Produto de id: "+itemPedidoDTO.getProduto().getIdProduto()+ " não encontrado");
+			}
+			if(pedido == null) {
+				throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " não encontrado");
+			}
+			if(!pedido.getStatus().toLowerCase().equals("aberto")) {
+				throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " Não tem o status 'aberto'");
+			}
+			
+			produto.setQtdEstoque(produto.getQtdEstoque()+itemPedidoId.getQuantidade());
+			Produto prodResponse = produtoRepository.save(produto);
+			if(prodResponse==null) {
+				throw new CustomException("Erro ao atualizar o estoque do produto");
+			}
+			pedido.setValorTotal(pedido.getValorTotal().subtract(itemPedidoId.getValorLiquido()));
+			Pedido pedResponse = pedidoRepository.save(pedido);
+			if(pedResponse==null) {
+				throw new CustomException("Erro ao atualizar o valor total do pedido");
+			}			
+			
+			if (produto.getQtdEstoque() >= quantidade) {			
+				itemPedidoDTO.setPedido(pedido);
+				itemPedidoDTO.setProduto(produto);
+				if(null == itemPedidoDTO.getPrecoVenda()) {
+					itemPedidoDTO.setPrecoVenda(produto.getValorUnitario());
+				}			
+				itemPedidoDTO.setValorBruto(itemPedidoDTO.getPrecoVenda().multiply(BigDecimal.valueOf(quantidade)));
+				itemPedidoDTO.setValorLiquido(itemPedidoDTO.getValorBruto().subtract(itemPedidoDTO.getValorBruto().multiply(itemPedidoDTO.getPercentualDesconto())));			
+				ItemPedido itemPedido = modelMapper.map(itemPedidoDTO, ItemPedido.class);
+				ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
+				if(saveItemPedidoResponse != null) {
+					produto.setQtdEstoque(produto.getQtdEstoque() - quantidade);				
+					produtoRepository.save(produto);
+					pedido.setValorTotal(pedido.getValorTotal().add(saveItemPedidoResponse.getValorLiquido()));				
+					pedido.setStatus(itemPedidoDTO.getStatus());					
+					Pedido savePedidoResponse = pedidoRepository.save(pedido);
+					if(savePedidoResponse == null) {
+						throw new CustomException("Erro ao atualizar o pedido no banco de dados");
+					}								
+					
+					return modelMapper.map(saveItemPedidoResponse, ItemPedidoDTO.class);
+						
+					
+				}else {
+					throw new CustomException("Erro ao atualizar o itemPedido no banco de dados");
+				}
+			}
+			else {
+				throw new CustomException("Estoque insuficiente do produto");
+			}	
 		
 	}
 	
