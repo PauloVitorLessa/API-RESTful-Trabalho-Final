@@ -153,7 +153,12 @@ public class ItemPedidoService {
 					Pedido savePedidoResponse = pedidoRepository.save(pedido);
 					if(savePedidoResponse == null) {
 						throw new CustomException("Erro ao atualizar o pedido no banco de dados");
-					}								
+					}
+					
+					if (savePedidoResponse.getStatus().toLowerCase().equals("fechado")) {
+						
+						this.enviaRelatorio(savePedidoResponse);
+			    	}
 					
 					return modelMapper.map(saveItemPedidoResponse, ItemPedidoDTO.class);
 						
