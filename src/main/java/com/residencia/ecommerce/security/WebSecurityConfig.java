@@ -42,6 +42,7 @@ public class WebSecurityConfig {
             .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler)) //configura a classe para tratamento da excecao de autenticacao
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a politica de sessao
             .authorizeHttpRequests(auth -> auth
+            		.requestMatchers("/**").permitAll()
             		.requestMatchers(HttpMethod.GET, "/produtos/**","/categorias/**","/pedidos/**","/itempedidos/**").permitAll() //autoriza o acesso a rotas por perfis
             		.requestMatchers("/swagger-ui/**","/v3/api-docs/**","/actuator/**","/login","/clientes/**","/roles/**","/enderecos/**").permitAll() //define as rotas publicas/abertas
                                         
