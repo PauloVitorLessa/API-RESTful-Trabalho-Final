@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.services.ItemPedidoService;
 
 import jakarta.validation.Valid;
-
+@CrossOrigin (origins = "*")
 @RestController
 @RequestMapping("/itempedidos")
 public class ItemPedidoController {
