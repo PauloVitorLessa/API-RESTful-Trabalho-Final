@@ -37,69 +37,7 @@ public class ProdutoService {
 			return null;		
 		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);		
 		return produtoDTO;		
-	}
-	
-public ProdutoDTO saveProdutoDTOsemImagem(String produtoDTO) {	
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			ProdutoDTO prodDTO = objectMapper.readValue(produtoDTO, ProdutoDTO.class);
-		
-			Produto produto = modelMapper.map(prodDTO, Produto.class);		
-			List<Produto> listaProduto = produtoRepository.findAll();
-			for(Produto prod:listaProduto){
-				if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
-					throw new CustomException("Já existe um produto com este nome");
-				}
-				if(prod.getDescricao().toLowerCase().equals(produto.getDescricao().toLowerCase())) {
-					throw new CustomException("Já existe um produto com esta descrição");
-				}				
-			}
-			produto.setDataCadastro(new Date());
-			Produto saveProdResponse =  produtoRepository.save(produto);
-		
-			if(saveProdResponse == null) {
-				throw new CustomException("Erro ao salvar no banco");
-			}		
-			return modelMapper.map(saveProdResponse, ProdutoDTO.class);	
-		
-		} catch (JsonMappingException e) {
-			System.out.println(e.toString()); 
-			throw new CustomException("Erro ao Converter O Json para ProtudoDTO.class");
-			
-		} catch (JsonProcessingException e) {			
-			throw new CustomException("Erro ao Converter O Json para ProtudoDTO.class");
-		}			 
-	}
-
-
-public ProdutoDTO updateProdutoDTOimagem(MultipartFile file, Integer id) {	
-		
-		Produto response = produtoRepository.findById(id).orElse(null);
-		if(response == null)
-			return null;
-		
-		try {
-			response.setImagem(file.getBytes());
-		}catch(java.io.IOException e) {
-			throw new CustomException("Ocorreu um erro ao tentar converter a imagem");			 
-		}		
-		
-		Produto saveProdResponse =  produtoRepository.save(response);
-	
-		if(saveProdResponse == null) {
-			throw new CustomException("Erro ao salvar no banco");
-		}		
-		return modelMapper.map(saveProdResponse, ProdutoDTO.class);	
-	
-				 
-}
-
-
-
-	
-	
-	
+	}	
 	
 	public ProdutoDTO saveProdutoDTO(String produtoDTO, MultipartFile file) {	
 		
