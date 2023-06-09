@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,17 +56,40 @@ public class ProdutoController {
             		.contentType(MediaType.valueOf("image/jpg"))
             		.body(img);
     }
-    //APPLICATION_JSON_VALUE
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<?> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
-   		@RequestPart("source") MultipartFile file) throws IOException{
-    		
-    		ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
-    			if(null == novoProdutoDTO)
-    				return new ResponseEntity<>(produtoDTO, HttpStatus.BAD_REQUEST);
-    			else
-    				return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
+    
+    @PostMapping
+    public ResponseEntity<?> saveCategoriaDTO(@RequestBody String produtoDTO) {
+    	ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTOsemImagem(produtoDTO);
+		if(null == novoProdutoDTO)
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
+    
+    
+    
+    
+    
+    
+    //APPLICATION_JSON_VALUE
+    //@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
+    //public ResponseEntity<?> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
+   		//@RequestPart("source") MultipartFile file) throws IOException{
+    		//
+    		//ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
+    			//if(null == novoProdutoDTO)
+    		//		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    			//else
+    			///	return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
+    //}
+    
+    
+    
+    
+    
+    
+    
+    
     
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<ProdutoDTO> updateProduto(@RequestPart("produtoDTO") String produtoDTO,
