@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,30 +60,41 @@ public class ProdutoController {
     }
     
     @PostMapping
-    public ResponseEntity<?> saveCategoriaDTO(@RequestBody String produtoDTO) {
-    	ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTOsemImagem(produtoDTO);
+    public ResponseEntity<?> saveProdutoDTOsemImagem(@RequestBody String produtoDTO) {
+   	ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTOsemImagem(produtoDTO);
 		if(null == novoProdutoDTO)
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		else
 			return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
     
-    
-    
+    @PutMapping("/img/{id}")
+    public ResponseEntity<ProdutoDTO> updateProdutoImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id){
+    	    	
+    	ProdutoDTO novoProdutoDTO = produtoService.updateProdutoDTOimagem(file, id);
+    	if(novoProdutoDTO!= null) {
+            return new ResponseEntity<> (novoProdutoDTO,
+                   HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<> ( null,
+                   HttpStatus.NOT_FOUND);
+        }
+    }
     
     
     
     //APPLICATION_JSON_VALUE
-    //@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
-    //public ResponseEntity<?> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
-   		//@RequestPart("source") MultipartFile file) throws IOException{
-    		//
-    		//ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
-    			//if(null == novoProdutoDTO)
+  //  @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
+ //   public ResponseEntity<?> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
+   	//	@RequestPart("source") MultipartFile file) throws IOException{
+    		
+    	//	ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
+    		//	if(null == novoProdutoDTO)
     		//		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-    			//else
-    			///	return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
-    //}
+    		//	else
+    		//		return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
+  //  }
     
     
     

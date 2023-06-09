@@ -71,6 +71,32 @@ public ProdutoDTO saveProdutoDTOsemImagem(String produtoDTO) {
 			throw new CustomException("Erro ao Converter O Json para ProtudoDTO.class");
 		}			 
 	}
+
+
+public ProdutoDTO updateProdutoDTOimagem(MultipartFile file, Integer id) {	
+		
+		Produto response = produtoRepository.findById(id).orElse(null);
+		if(response == null)
+			return null;
+		
+		try {
+			response.setImagem(file.getBytes());
+		}catch(java.io.IOException e) {
+			throw new CustomException("Ocorreu um erro ao tentar converter a imagem");			 
+		}		
+		
+		Produto saveProdResponse =  produtoRepository.save(response);
+	
+		if(saveProdResponse == null) {
+			throw new CustomException("Erro ao salvar no banco");
+		}		
+		return modelMapper.map(saveProdResponse, ProdutoDTO.class);	
+	
+				 
+}
+
+
+
 	
 	
 	
