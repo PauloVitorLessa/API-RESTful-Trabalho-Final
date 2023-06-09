@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.services.CategoriaService;
-@CrossOrigin (origins = "*")
+@CrossOrigin (origins = {"*"})
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {

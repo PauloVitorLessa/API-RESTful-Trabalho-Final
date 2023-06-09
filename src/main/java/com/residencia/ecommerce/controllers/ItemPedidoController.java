@@ -20,7 +20,7 @@ import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.services.ItemPedidoService;
 
 import jakarta.validation.Valid;
-@CrossOrigin (origins = "*")
+@CrossOrigin (origins = {"*"})
 @RestController
 @RequestMapping("/itempedidos")
 public class ItemPedidoController {

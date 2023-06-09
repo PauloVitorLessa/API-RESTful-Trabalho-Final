@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.services.PedidoService;
-@CrossOrigin (origins = "*")
+@CrossOrigin (origins = {"*"})
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {

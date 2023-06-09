@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.services.EnderecoService;
-@CrossOrigin (origins = "*")
+@CrossOrigin (origins = {"*"})
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoController {
