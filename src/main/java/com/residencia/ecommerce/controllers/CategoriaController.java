@@ -20,7 +20,7 @@ import com.residencia.ecommerce.services.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+@CrossOrigin
 public class CategoriaController {
 	
 	@Autowired

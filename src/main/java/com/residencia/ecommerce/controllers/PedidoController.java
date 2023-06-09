@@ -20,7 +20,7 @@ import com.residencia.ecommerce.services.PedidoService;
 
 @RestController
 @RequestMapping("/pedidos")
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+@CrossOrigin
 public class PedidoController {
 	
 	@Autowired

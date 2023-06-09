@@ -25,7 +25,7 @@ import io.jsonwebtoken.io.IOException;
 
 @RestController
 @RequestMapping("/produtos")
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+@CrossOrigin
 public class ProdutoController {
 	
 	@Autowired

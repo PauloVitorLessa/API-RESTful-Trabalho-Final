@@ -20,7 +20,7 @@ import com.residencia.ecommerce.services.EnderecoService;
 
 @RestController
 @RequestMapping("/enderecos")
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+@CrossOrigin
 public class EnderecoController {
 	
 	@Autowired
