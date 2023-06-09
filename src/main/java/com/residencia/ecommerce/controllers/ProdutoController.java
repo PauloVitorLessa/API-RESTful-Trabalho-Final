@@ -57,12 +57,12 @@ public class ProdutoController {
     }
     //APPLICATION_JSON_VALUE
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
+    public ResponseEntity<?> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
    		@RequestPart("source") MultipartFile file) throws IOException{
     		
     		ProdutoDTO novoProdutoDTO = produtoService.saveProdutoDTO(produtoDTO, file);
     			if(null == novoProdutoDTO)
-    				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    				return new ResponseEntity<>(produtoDTO, HttpStatus.BAD_REQUEST);
     			else
     				return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
