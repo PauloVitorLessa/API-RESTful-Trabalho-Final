@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.services.CategoriaService;
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/categorias")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class CategoriaController {
 	
 	@Autowired

@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.services.EnderecoService;
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/enderecos")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class EnderecoController {
 	
 	@Autowired

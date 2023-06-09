@@ -20,9 +20,10 @@ import com.residencia.ecommerce.services.RoleService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/roles")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class RoleController {
 	@Autowired
 	RoleService roleService;

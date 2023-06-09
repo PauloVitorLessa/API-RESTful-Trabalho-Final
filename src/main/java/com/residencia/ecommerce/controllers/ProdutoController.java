@@ -22,9 +22,10 @@ import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.services.ProdutoService;
 
 import io.jsonwebtoken.io.IOException;
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/produtos")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class ProdutoController {
 	
 	@Autowired

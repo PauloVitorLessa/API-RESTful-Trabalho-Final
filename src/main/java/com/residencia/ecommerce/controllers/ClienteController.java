@@ -28,9 +28,10 @@ import com.residencia.ecommerce.services.ClienteService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class ClienteController {
 	
 	@Autowired

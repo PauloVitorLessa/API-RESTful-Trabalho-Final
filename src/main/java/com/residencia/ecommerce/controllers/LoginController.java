@@ -22,9 +22,10 @@ import com.residencia.ecommerce.security.jwt.JwtUtils;
 import com.residencia.ecommerce.security.service.UserDetailsImpl;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/login")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class LoginController {
 	@Autowired
 	AuthenticationManager authenticationManager;

@@ -20,9 +20,10 @@ import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.services.ItemPedidoService;
 
 import jakarta.validation.Valid;
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/itempedidos")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class ItemPedidoController {
 	
 	@Autowired

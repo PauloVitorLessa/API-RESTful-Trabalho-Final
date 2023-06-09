@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.services.PedidoService;
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/pedidos")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class PedidoController {
 	
 	@Autowired
