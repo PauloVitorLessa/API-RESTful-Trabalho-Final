@@ -55,8 +55,8 @@ public class ProdutoController {
             		.contentType(MediaType.valueOf("image/jpg"))
             		.body(img);
     }
-    
-    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    //APPLICATION_JSON_VALUE
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestPart("produtoDTO") String produtoDTO,
    		@RequestPart("source") MultipartFile file) throws IOException{
     		
@@ -67,7 +67,7 @@ public class ProdutoController {
     				return new ResponseEntity<>(novoProdutoDTO, HttpStatus.CREATED);
     }
     
-    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<ProdutoDTO> updateProduto(@RequestPart("produtoDTO") String produtoDTO,
        		@RequestPart("source") MultipartFile file) throws IOException {
     	ProdutoDTO novoProdutoDTO = produtoService.updateProdutoDTO(produtoDTO, file);
