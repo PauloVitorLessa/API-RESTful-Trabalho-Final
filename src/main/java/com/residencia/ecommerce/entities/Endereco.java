@@ -1,5 +1,7 @@
 package com.residencia.ecommerce.entities;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -8,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -54,8 +56,8 @@ public class Endereco {
 	@Column(name = "uf")
 	private String uf;
 	
-	@OneToOne (mappedBy = "endereco")
-	private Cliente cliente;
+	@OneToMany (mappedBy = "endereco")
+	private List<Cliente> clientes;
 
 	public Integer getIdEndereco() {
 		return idEndereco;
@@ -121,19 +123,20 @@ public class Endereco {
 		this.uf = uf;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 	@Override
 	public String toString() {
 		return "Endereco [idEndereco=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
 				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf
-				+ ", cliente=" + cliente + "]";
+				+ ", clientes=" + clientes + "]";
 	}
+	
 }
 

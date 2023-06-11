@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +27,11 @@ public class ProdutoService {
 	ModelMapper modelMapper;
 	
 	public List<ProdutoDTO> getAllProdutosDTO() {
-		List<Produto> produtos = produtoRepository.findAll();
-		List<ProdutoDTO> listaProdutoDTO = produtos.stream().map(x -> new ProdutoDTO(x)).toList();						
+		List<Produto> listaProdutos = produtoRepository.findAll();
+		List<ProdutoDTO> listaProdutoDTO = new ArrayList<>();
+		for(Produto produto : listaProdutos) {
+			ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);
+			listaProdutoDTO.add(produtoDTO);}
 		return listaProdutoDTO;
 	}
 	

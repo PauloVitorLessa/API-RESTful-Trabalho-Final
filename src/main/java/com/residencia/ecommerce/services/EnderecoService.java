@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.dto.EnderecoAPIDTO;
+import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.entities.Endereco;
 import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.EnderecoRepository;
@@ -23,9 +24,14 @@ public class EnderecoService {
 	@Autowired
 	ModelMapper modelMapper;
 	
-	public List<EnderecoDTO> getAllEnderecosDTO() {		
+	public List<EnderecoDTO> getAllEnderecosDTO() {	
+		
 		List<Endereco> listaEndereco = enderecoRepository.findAll();
-		List<EnderecoDTO> listaEnderecoDTO = listaEndereco.stream().map(x -> new EnderecoDTO(x)).toList();					
+		List<EnderecoDTO> listaEnderecoDTO = new ArrayList<>();
+		for(Endereco endereco : listaEndereco) {
+				EnderecoDTO enderecoDTO = modelMapper.map(endereco, EnderecoDTO.class);
+				listaEnderecoDTO.add(enderecoDTO);}
+		
 		return listaEnderecoDTO;
 	}
 	

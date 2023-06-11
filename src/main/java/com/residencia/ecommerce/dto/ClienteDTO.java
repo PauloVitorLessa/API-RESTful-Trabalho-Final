@@ -1,5 +1,7 @@
 package com.residencia.ecommerce.dto;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,8 @@ public class ClienteDTO {
 	
 	private String telefone;
 	
+	private String dataString;
+	
 	private Date dataNascimento;
 	
 	private String username;
@@ -43,13 +47,16 @@ public class ClienteDTO {
 		this.nome = cliente.getNome();
 		this.email = cliente.getEmail();
 		this.telefone = cliente.getTelefone();
+		DateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
+		formater.setLenient(false);
+		this.dataString = formater.format(cliente.getDataNascimento());
 		this.dataNascimento = cliente.getDataNascimento();
 		this.username = cliente.getUsername();
 		this.password = cliente.getPassword();
 		this.roles = cliente.getRoles();		
-		this.pedidos = cliente.getPedido();		
-	}
-	
+		this.pedidos = cliente.getPedido();
+		
+	}	
 
 	public ClienteDTO() {
 		super();
@@ -57,15 +64,19 @@ public class ClienteDTO {
 	}
 
 
-	public ClienteDTO(Integer idCliente, String cpf, String nome, String email, String telefone, Date dataNascimento,
-			String username, String password, Set<Role> roles, Set<String> strRoles, Endereco endereco,
-			List<Pedido> pedidos) {
+	
+
+
+	public ClienteDTO(Integer idCliente, String cpf, String nome, String email, String telefone, String dataString,
+			Date dataNascimento, String username, String password, Set<Role> roles, Set<String> strRoles,
+			Endereco endereco, List<Pedido> pedidos) {
 		super();
 		IdCliente = idCliente;
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
+		this.dataString = dataString;
 		this.dataNascimento = dataNascimento;
 		this.username = username;
 		this.password = password;
@@ -74,7 +85,6 @@ public class ClienteDTO {
 		this.endereco = endereco;
 		this.pedidos = pedidos;
 	}
-
 
 	public Integer getIdCliente() {
 		return IdCliente;
@@ -193,6 +203,16 @@ public class ClienteDTO {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public String getDataString() {
+		return dataString;
+	}
+
+	public void setDataString(String dataString) {
+		this.dataString = dataString;
 	}	
+	
+	
 		
 }

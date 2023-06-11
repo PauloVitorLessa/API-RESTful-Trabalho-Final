@@ -1,5 +1,9 @@
 package com.residencia.ecommerce.services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -21,7 +25,11 @@ public class ClienteService {
 	
 	public List<ClienteDTO> getAllClientesDTO() {		
 		List<Cliente> listaCliente = clienteRepository.findAll();
-		List<ClienteDTO> listaClienteDTO = listaCliente.stream().map(x -> new ClienteDTO(x)).toList();				
+		List<ClienteDTO> listaClienteDTO =  new ArrayList<>();
+		for(Cliente cliente : listaCliente) {
+			ClienteDTO clienteDTO = modelMapper.map(cliente, ClienteDTO.class);
+			listaClienteDTO.add(clienteDTO);		}
+		//List<ClienteDTO> listaClienteDTO = listaCliente.stream().map(x -> new ClienteDTO(x)).toList();				
 		return listaClienteDTO;
 	}
 	
@@ -36,7 +44,15 @@ public class ClienteService {
 	}
 	
 	public ClienteDTO saveClienteDTO(ClienteDTO clienteDTO) {
+		
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		df.setLenient(false);
+		try {
+			cliente.setDataNascimento(df.parse(clienteDTO.getDataString()));
+		} catch (ParseException e) {	
+			e.printStackTrace();
+		}
 		Cliente saveClienteResponse = clienteRepository.save(cliente);
 		if(saveClienteResponse == null) {
 			throw new CustomException("Erro ao salvar no banco");
@@ -47,6 +63,13 @@ public class ClienteService {
 	public ClienteDTO updateClienteDTO(ClienteDTO clienteDTO) {
 	
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		df.setLenient(false);
+		try {
+			cliente.setDataNascimento(df.parse(clienteDTO.getDataString()));
+		} catch (ParseException e) {	
+			e.printStackTrace();
+		}
 		Cliente saveClienteResponse = clienteRepository.save(cliente);
 		return modelMapper.map(saveClienteResponse, ClienteDTO.class);		
 	}

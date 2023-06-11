@@ -17,8 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @JsonIdentityInfo(
@@ -63,7 +63,7 @@ public class Cliente {
 	
 	
 	//cardinalidade 1:1
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_endereco", 
 			referencedColumnName = "id_endereco")
 	private Endereco endereco; // relacionando a classe endereço com o cliente

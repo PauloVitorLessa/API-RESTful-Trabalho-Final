@@ -1,6 +1,7 @@
 package com.residencia.ecommerce.services;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -34,7 +35,10 @@ public class ItemPedidoService {
 	
 	public List<ItemPedidoDTO> getAllItemPedidosDTO() {
 		List<ItemPedido> listaItemPedido = itemPedidoRepository.findAll();		
-		List<ItemPedidoDTO> listaItemPedidoDTO = listaItemPedido.stream().map(x -> new ItemPedidoDTO(x)).toList();						
+		List<ItemPedidoDTO> listaItemPedidoDTO = new ArrayList<>();
+		for(ItemPedido itemPedido : listaItemPedido) {
+			ItemPedidoDTO itemPedidoDTO = modelMapper.map(itemPedido, ItemPedidoDTO.class);
+			listaItemPedidoDTO.add(itemPedidoDTO);}
 		return listaItemPedidoDTO;
 	}
 	

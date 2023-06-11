@@ -80,7 +80,15 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body("Erro: Email já utilizado!");
 		}
 		
+		if (clienteRepository.existsByTelefone(clienteDTO.getTelefone())) {
+			return ResponseEntity.badRequest().body("Erro: Telefone já utilizado!");
+		}
+		if (clienteRepository.existsByCpf(clienteDTO.getCpf())) {
+			return ResponseEntity.badRequest().body("Erro: CPF já utilizado!");
+		}
+		
 		clienteDTO.setPassword(encoder.encode(clienteDTO.getPassword()));
+		
 
 		Set<String> strRoles = clienteDTO.getStrRoles();
 		Set<Role> roles = new HashSet<>();
@@ -105,7 +113,8 @@ public class ClienteController {
 				}
 			};
 		}
-		clienteDTO.setRoles(roles);    	
+		clienteDTO.setRoles(roles);
+		
         return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO),HttpStatus.CREATED);
     }
     

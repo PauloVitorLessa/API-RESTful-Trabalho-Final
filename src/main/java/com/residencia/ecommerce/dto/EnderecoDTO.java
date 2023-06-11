@@ -1,5 +1,7 @@
 package com.residencia.ecommerce.dto;
 
+import java.util.List;
+
 import com.residencia.ecommerce.entities.Cliente;
 import com.residencia.ecommerce.entities.Endereco;
 
@@ -21,7 +23,7 @@ public class EnderecoDTO {
 	
 	private String uf;
 	
-	private Cliente cliente;
+	private List<Cliente> clientes;
 	
 	public EnderecoDTO(Endereco endereco) {
 		super();
@@ -33,7 +35,7 @@ public class EnderecoDTO {
 		this.numero = endereco.getNumero();
 		this.complemento = endereco.getComplemento();
 		this.uf = endereco.getUf();
-		this.cliente = endereco.getCliente();
+		this.clientes = endereco.getClientes();
 	}
 
 	public EnderecoDTO() {
@@ -41,7 +43,7 @@ public class EnderecoDTO {
 	}
 
 	public EnderecoDTO(Integer idEndereco, String cep, String rua, String bairro, String cidade, Integer numero,
-			String complemento, String uf, Cliente cliente) {
+			String complemento, String uf, List<Cliente> clientes) {
 		super();
 		this.idEndereco = idEndereco;
 		this.cep = cep;
@@ -51,7 +53,7 @@ public class EnderecoDTO {
 		this.numero = numero;
 		this.complemento = complemento;
 		this.uf = uf;
-		this.cliente = cliente;
+		this.clientes = clientes;
 	}
 
 	public Integer getIdEndereco() {
@@ -118,12 +120,12 @@ public class EnderecoDTO {
 		this.uf = uf;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}	
 	
 }

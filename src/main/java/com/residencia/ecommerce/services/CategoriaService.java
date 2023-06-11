@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -20,8 +21,13 @@ public class CategoriaService {
 	ModelMapper modelMapper;
 	
 	public List<CategoriaDTO> getAllCategoriasDTO() {		
+				
 		List<Categoria> listaCategoria = categoriaRepository.findAll();
-		List<CategoriaDTO> listaCategoriaDTO = listaCategoria.stream().map(x -> new CategoriaDTO(x)).toList();				
+		List<CategoriaDTO> listaCategoriaDTO = 	new ArrayList<>();
+		for(Categoria categoria : listaCategoria) {
+			CategoriaDTO categoriaDTO = modelMapper.map(categoria, CategoriaDTO.class);
+			listaCategoriaDTO.add(categoriaDTO);}	
+		
 		return listaCategoriaDTO;
 	}
 	
