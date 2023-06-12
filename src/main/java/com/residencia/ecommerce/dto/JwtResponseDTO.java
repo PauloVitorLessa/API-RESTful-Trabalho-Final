@@ -7,15 +7,18 @@ public class JwtResponseDTO {
 	private String type = "Bearer";
 	private Integer id;
 	private String username;
+	private String nome;
 	private String email;
+	
 	private List<String> roles;
 
-	public JwtResponseDTO(String accessToken, Integer id, String username, String email, List<String> roles) {
+	public JwtResponseDTO(String accessToken, Integer id, String username, String email,String nome, List<String> roles) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.roles = roles;
+		this.nome = nome;
 	}
 
 	public String getAccessToken() {
@@ -61,4 +64,13 @@ public class JwtResponseDTO {
 	public List<String> getRoles() {
 		return roles;
 	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 }

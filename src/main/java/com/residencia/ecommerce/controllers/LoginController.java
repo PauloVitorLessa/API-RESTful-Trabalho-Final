@@ -57,7 +57,7 @@ public class LoginController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(
-				new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+				new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(),userDetails.getNome(), roles));
 	}
 	
 }
