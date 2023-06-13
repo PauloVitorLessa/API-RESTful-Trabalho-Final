@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Categoria {
 	@Column(name = "descricao")
 	private String descricao;
 	
-	@OneToMany(mappedBy = "categoria") 
+	@OneToMany(mappedBy = "categoria", orphanRemoval = true, cascade = CascadeType.REMOVE) 
 	private List<Produto> produtos;	
 	
 

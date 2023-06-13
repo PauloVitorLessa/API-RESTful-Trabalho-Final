@@ -8,6 +8,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -69,7 +70,7 @@ public class Cliente {
 	private Endereco endereco; // relacionando a classe endereço com o cliente
 	
 	//cardinalidade 1:N
-	@OneToMany(mappedBy = "cliente") //linkando com o "cliente" criado no pedido
+	@OneToMany(mappedBy = "cliente", orphanRemoval = true, cascade = CascadeType.REMOVE) //linkando com o "cliente" criado no pedido
 	private List<Pedido> pedido; // 1 cliente pode ter N pedidos
 
 	public Integer getIdCliente() {
