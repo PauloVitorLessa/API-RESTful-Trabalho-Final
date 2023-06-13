@@ -98,15 +98,7 @@ public ProdutoDTO updateProdutoDTO(String produtoDTO, MultipartFile file) {
 			}catch(java.io.IOException e) {
 				throw new CustomException("Ocorreu um erro ao tentar converter a imagem");			 
 			}
-			List<Produto> listaProduto = produtoRepository.findAll();
-			for(Produto prod:listaProduto){
-				if(prod.getNome().toLowerCase().equals(produto.getNome().toLowerCase())) {
-					throw new CustomException("Já existe um produto com este nome");
-				}
-				if(prod.getDescricao().toLowerCase().equals(produto.getDescricao().toLowerCase())) {
-					throw new CustomException("Já existe um produto com esta descrição");
-				}				
-			}
+			
 			produto.setDataCadastro(new Date());
 			Produto saveProdResponse =  produtoRepository.save(produto);
 		
