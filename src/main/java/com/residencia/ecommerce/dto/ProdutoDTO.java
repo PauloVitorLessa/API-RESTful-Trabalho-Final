@@ -4,12 +4,18 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.residencia.ecommerce.entities.Categoria;
 import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Produto;
 
 
 public class ProdutoDTO {
+	
+	@Autowired
+	ModelMapper modelMapper;
 	
 	private Integer idProduto;
 	
@@ -25,7 +31,7 @@ public class ProdutoDTO {
 
 	private byte[] imagem; 
 
-	private Categoria categoria;
+	private CategoriaDTO categoria;
 	
 	private List<ItemPedido> itensPedidos;	
 
@@ -39,8 +45,8 @@ public class ProdutoDTO {
 		this.qtdEstoque = produto.getQtdEstoque();
 		this.dataCadastro = produto.getDataCadastro();
 		this.valorUnitario = produto.getValorUnitario();
-		this.imagem = produto.getImagem();
-		this.categoria = produto.getCategoria();
+		this.imagem = produto.getImagem();		
+		this.categoria = modelMapper.map(produto.getCategoria(), CategoriaDTO.class);
 		this.itensPedidos = produto.getItensPedidos();
 	}
 
@@ -54,7 +60,7 @@ public class ProdutoDTO {
 		this.dataCadastro = dataCadastro;
 		this.valorUnitario = valorUnitario;
 		this.imagem = imagem;
-		this.categoria = categoria;
+		this.categoria = modelMapper.map(categoria, CategoriaDTO.class);
 		this.itensPedidos = itensPedidos;
 	}
 
@@ -114,11 +120,11 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
-	public Categoria getCategoria() {
+	public CategoriaDTO getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaDTO categoria) {
 		this.categoria = categoria;
 	}
 

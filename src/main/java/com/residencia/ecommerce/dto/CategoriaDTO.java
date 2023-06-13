@@ -1,12 +1,19 @@
 package com.residencia.ecommerce.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.residencia.ecommerce.entities.Categoria;
 import com.residencia.ecommerce.entities.Produto;
 
 
 public class CategoriaDTO {
+	
+	@Autowired
+	ModelMapper modelMapper;
 
 private Integer idCategoria;
 	
@@ -17,7 +24,7 @@ private String nome;
 private String descricao;
 	
 
-private List<Produto> produtos;
+private List<ProdutoDTO> produtos;
 
 
 public CategoriaDTO() {
@@ -29,7 +36,12 @@ public CategoriaDTO(Categoria categoria) {
 	this.idCategoria = categoria.getIdCategoria();
 	this.nome = categoria.getNome();
 	this.descricao = categoria.getDescricao();
-	this.produtos = categoria.getProdutos();
+	List <ProdutoDTO> listaProdutoDTO = new ArrayList <>();
+	for(Produto produto : categoria.getProdutos()) {
+		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);
+		listaProdutoDTO.add(produtoDTO);
+	}
+	this.produtos = listaProdutoDTO;
 	
 }
 
@@ -38,7 +50,13 @@ public CategoriaDTO(Integer idCategoria, String nome, String descricao, List<Pro
 	this.idCategoria = idCategoria;
 	this.nome = nome;
 	this.descricao = descricao;
-	this.produtos = produtos;
+	List <ProdutoDTO> listaProdutoDTO = new ArrayList <>();
+	for(Produto produto : produtos) {
+		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);
+		listaProdutoDTO.add(produtoDTO);
+	}
+	
+	this.produtos = listaProdutoDTO;
 }
 
 
@@ -72,12 +90,12 @@ public void setDescricao(String descricao) {
 }
 
 
-public List<Produto> getProdutos() {
+public List<ProdutoDTO> getProdutos() {
 	return produtos;
 }
 
 
-public void setProdutos(List<Produto> produtos) {
+public void setProdutos(List<ProdutoDTO> produtos) {
 	this.produtos = produtos;
 } 
 	

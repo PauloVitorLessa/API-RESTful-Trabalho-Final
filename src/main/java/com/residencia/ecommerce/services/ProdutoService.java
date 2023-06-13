@@ -30,8 +30,7 @@ public class ProdutoService {
 		List<Produto> listaProdutos = produtoRepository.findAll();
 		List<ProdutoDTO> listaProdutoDTO = new ArrayList<>();
 		for(Produto produto : listaProdutos) {
-			ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);
-			produtoDTO.setCategoria(produto.getCategoria());
+			ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);			
 			listaProdutoDTO.add(produtoDTO);}
 		return listaProdutoDTO;
 	}
@@ -40,8 +39,7 @@ public class ProdutoService {
 		Produto produto = produtoRepository.findById(id).orElse(null);		
 		if(produto==null)
 			return null;		
-		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);
-		produtoDTO.setCategoria(produto.getCategoria());
+		ProdutoDTO produtoDTO = modelMapper.map(produto, ProdutoDTO.class);		
 		return produtoDTO;		
 	}	
 	
