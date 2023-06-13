@@ -2,20 +2,12 @@ package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.residencia.ecommerce.entities.Categoria;
-import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Produto;
 
 
 public class ProdutoDTO {
 	
-	@Autowired
-	ModelMapper modelMapper;
 	
 	private Integer idProduto;
 	
@@ -31,9 +23,9 @@ public class ProdutoDTO {
 
 	private byte[] imagem; 
 
-	private CategoriaDTO categoria;
+	private Integer idCategoria;
 	
-	private List<ItemPedido> itensPedidos;	
+	private String nomeCategoria;	
 
 	public ProdutoDTO() {
 		super();		
@@ -46,12 +38,26 @@ public class ProdutoDTO {
 		this.dataCadastro = produto.getDataCadastro();
 		this.valorUnitario = produto.getValorUnitario();
 		this.imagem = produto.getImagem();		
-		this.categoria = modelMapper.map(produto.getCategoria(), CategoriaDTO.class);
-		this.itensPedidos = produto.getItensPedidos();
+		this.idCategoria = produto.getCategoria().getIdCategoria();
+		this.nomeCategoria = produto.getCategoria().getNome();
 	}
 
+	
+	
+	public Integer getIdCategoria() {
+		return idCategoria;
+	}
+	public void setIdCategoria(Integer idCategoria) {
+		this.idCategoria = idCategoria;
+	}
+	public String getNomeCategoria() {
+		return nomeCategoria;
+	}
+	public void setNomeCategoria(String nomeCategoria) {
+		this.nomeCategoria = nomeCategoria;
+	}
 	public ProdutoDTO(Integer idProduto, String nome, String descricao, Integer qtdEstoque, Date dataCadastro,
-			BigDecimal valorUnitario, byte[] imagem, Categoria categoria, List<ItemPedido> itensPedidos) {
+			BigDecimal valorUnitario, byte[] imagem, Integer idCategoria, String nomeCategoria) {
 		super();
 		this.idProduto = idProduto;
 		this.nome = nome;
@@ -60,10 +66,9 @@ public class ProdutoDTO {
 		this.dataCadastro = dataCadastro;
 		this.valorUnitario = valorUnitario;
 		this.imagem = imagem;
-		this.categoria = modelMapper.map(categoria, CategoriaDTO.class);
-		this.itensPedidos = itensPedidos;
+		this.idCategoria = idCategoria;
+		this.nomeCategoria = nomeCategoria;
 	}
-
 	public Integer getIdProduto() {
 		return idProduto;
 	}
@@ -120,19 +125,5 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
-	public CategoriaDTO getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(CategoriaDTO categoria) {
-		this.categoria = categoria;
-	}
-
-	public List<ItemPedido> getItensPedidos() {
-		return itensPedidos;
-	}
-
-	public void setItensPedidos(List<ItemPedido> itensPedidos) {
-		this.itensPedidos = itensPedidos;
-	}
+	
 }
