@@ -58,7 +58,7 @@ public class Pedido {
 					referencedColumnName = "id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido", orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.REMOVE)
 	private List<ItemPedido> itensPedidos;
 
 	public Integer getIdPedido() {

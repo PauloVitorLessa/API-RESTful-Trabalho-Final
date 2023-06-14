@@ -42,6 +42,8 @@ public class PedidoService {
 	public PedidoDTO savePedidoDTO(PedidoDTO pedidoDTO) {
 		Pedido pedido = modelMapper.map(pedidoDTO, Pedido.class);
 		pedido.setValorTotal(new BigDecimal("0.0"));
+		pedido.setDataEntrega(new Date());
+		pedido.setDataEnvio(new Date());
 		pedido.setDataPedido(new Date());
 		Pedido savePedidoResponse = pedidoRepository.save(pedido);
 		if(savePedidoResponse == null) {
@@ -54,6 +56,9 @@ public class PedidoService {
 	public PedidoDTO updatePedidoDTO(PedidoDTO pedidoDTO) {
 	
 		Pedido pedido = modelMapper.map(pedidoDTO, Pedido.class);
+		pedido.setDataEntrega(new Date());
+		pedido.setDataEnvio(new Date());
+		pedido.setDataPedido(new Date());
 		Pedido savePedidoResponse = pedidoRepository.save(pedido);
 		return modelMapper.map(savePedidoResponse, PedidoDTO.class);		
 	}
