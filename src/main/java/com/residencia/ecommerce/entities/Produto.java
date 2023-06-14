@@ -54,7 +54,7 @@ public class Produto {
 					referencedColumnName = "id_categoria")
 	private Categoria categoria;
 	
-	@OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
 	private List<ItemPedido> itensPedidos;
 
 	public Integer getIdProduto() {
