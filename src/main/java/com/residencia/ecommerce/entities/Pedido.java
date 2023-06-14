@@ -37,11 +37,11 @@ public class Pedido {
 	@Column(name = "data_pedido")
 	private Date dataPedido;
 	
-	@NotNull
+	
 	@Column(name = "data_entrega")
 	private Date dataEntrega;
 	
-	@NotNull
+	
 	@Column(name = "data_envio")
 	private Date dataEnvio;
 
