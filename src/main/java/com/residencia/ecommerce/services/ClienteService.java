@@ -28,6 +28,9 @@ public class ClienteService {
 		List<ClienteDTO> listaClienteDTO =  new ArrayList<>();
 		for(Cliente cliente : listaCliente) {
 			ClienteDTO clienteDTO = modelMapper.map(cliente, ClienteDTO.class);
+			java.util.Locale locale = new java.util.Locale("pt","BR");
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy", locale);
+			clienteDTO.setDataString(df.format(cliente.getDataNascimento()));
 			listaClienteDTO.add(clienteDTO);		}
 		//List<ClienteDTO> listaClienteDTO = listaCliente.stream().map(x -> new ClienteDTO(x)).toList();				
 		return listaClienteDTO;
@@ -38,7 +41,10 @@ public class ClienteService {
 		
 		if(cliente==null)
 			return null;		
-		ClienteDTO clienteDTO = modelMapper.map(cliente, ClienteDTO.class);	
+		ClienteDTO clienteDTO = modelMapper.map(cliente, ClienteDTO.class);
+		java.util.Locale locale = new java.util.Locale("pt","BR");
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy", locale);
+		clienteDTO.setDataString(df.format(cliente.getDataNascimento()));		
 		return clienteDTO;
 		
 	}
