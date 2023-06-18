@@ -14,11 +14,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-@JsonIdentityInfo(
-		scope = Endereco.class,
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "idEndereco"
-		)
+//@JsonIdentityInfo(
+//		scope = Endereco.class,
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "idEndereco"
+//		)
 @Entity
 @Table(name = "endereco") // indica a qual tabela ela se refere no banco
 public class Endereco {

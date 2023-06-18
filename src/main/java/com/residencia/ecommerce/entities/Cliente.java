@@ -22,11 +22,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo(
-		scope = Cliente.class,
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "idCliente"
-		)
+//@JsonIdentityInfo(
+//		scope = Cliente.class,
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "idCliente"
+//		)
 @Entity
 @Table(name = "cliente")
 public class Cliente {

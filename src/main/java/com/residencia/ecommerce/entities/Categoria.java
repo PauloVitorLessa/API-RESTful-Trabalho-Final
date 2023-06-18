@@ -14,10 +14,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-       property = "idCategoria"
-      )
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+ //      property = "idCategoria"
+ //     )
 @Entity
 @Table(name = "categoria")
 public class Categoria {
