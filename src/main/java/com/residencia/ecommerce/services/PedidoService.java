@@ -9,7 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.PedidoDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
+import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Pedido;
 import com.residencia.ecommerce.exceptions.CustomException;
 import com.residencia.ecommerce.repositories.PedidoRepository;
@@ -22,11 +25,24 @@ public class PedidoService {
 	@Autowired
 	ModelMapper modelMapper;
 	
+		
+	
 	public List<PedidoDTO> getAllPedidosDTO() {		
 		List<Pedido> listaPedido = pedidoRepository.findAll();
-		List<PedidoDTO> listaPedidoDTO = new ArrayList<>();	
+		List<PedidoDTO> listaPedidoDTO = new ArrayList<>();
+		
 		for(Pedido pedido : listaPedido) {
 			PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
+			pedidoDTO.setIdCliente(pedido.getCliente().getIdCliente());
+			List<ItemPedidoDTO> listaItemPedidoDTO = new ArrayList<>();
+			for(ItemPedido item : pedido.getItensPedidos()) {
+				ItemPedidoDTO itemPedidoDTO = modelMapper.map(item, ItemPedidoDTO.class);
+				ProdutoDTO produtoDTO = modelMapper.map(item.getProduto(),ProdutoDTO.class);
+				produtoDTO.setImagem(null);
+				itemPedidoDTO.setProdutoDTO(produtoDTO);
+				listaItemPedidoDTO.add(itemPedidoDTO);				
+			}
+			pedidoDTO.setItensPedidosDTO(listaItemPedidoDTO);
 			listaPedidoDTO.add(pedidoDTO);}
 		return listaPedidoDTO;
 	}

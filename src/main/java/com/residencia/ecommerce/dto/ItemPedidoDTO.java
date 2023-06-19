@@ -2,9 +2,10 @@ package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.residencia.ecommerce.entities.ItemPedido;
-import com.residencia.ecommerce.entities.Pedido;
-import com.residencia.ecommerce.entities.Produto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -13,6 +14,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class ItemPedidoDTO {
+	
+	@Autowired
+	ModelMapper modelMapper;
 	
 	private Integer idItemPedido;
 	@NotNull
@@ -28,9 +32,9 @@ public class ItemPedidoDTO {
 	
 	private BigDecimal valorLiquido;
 	@NotNull
-	private Pedido pedido;
+	private Integer idPedidoDTO;
 	@NotNull
-	private Produto produto;
+	private ProdutoDTO produtoDTO;
 	@NotNull
 	@NotBlank
 	String status;
@@ -43,8 +47,8 @@ public class ItemPedidoDTO {
 		this.percentualDesconto = itemPedido.getPercentualDesconto();
 		this.valorBruto = itemPedido.getValorBruto();
 		this.valorLiquido = itemPedido.getValorLiquido();
-		this.pedido = itemPedido.getPedido();
-		this.produto = itemPedido.getProduto();
+		this.idPedidoDTO = itemPedido.getPedido().getIdPedido();		
+		this.produtoDTO = modelMapper.map(itemPedido.getProduto(), ProdutoDTO.class)   ;
 		this.status = itemPedido.getStatus();
 	}
 
@@ -54,7 +58,7 @@ public class ItemPedidoDTO {
 
 	public ItemPedidoDTO(Integer idItemPedido, @NotNull @Min(1) Integer quantidade, BigDecimal precoVenda,
 			@DecimalMin("0.0") @DecimalMax("1.0") BigDecimal percentualDesconto, BigDecimal valorBruto,
-			BigDecimal valorLiquido, @NotNull Pedido pedido, @NotNull Produto produto,
+			BigDecimal valorLiquido, @NotNull Integer idPedido, @NotNull ProdutoDTO produtoDTO,
 			@NotNull @NotBlank String status) {
 		super();
 		this.idItemPedido = idItemPedido;
@@ -63,8 +67,8 @@ public class ItemPedidoDTO {
 		this.percentualDesconto = percentualDesconto;
 		this.valorBruto = valorBruto;
 		this.valorLiquido = valorLiquido;
-		this.pedido = pedido;
-		this.produto = produto;
+		this.idPedidoDTO = idPedido;
+		this.produtoDTO = produtoDTO;
 		this.status = status;
 	}
 
@@ -116,20 +120,20 @@ public class ItemPedidoDTO {
 		this.valorLiquido = valorLiquido;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	public Integer getIdPedidoDTO() {
+		return idPedidoDTO;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setIdPedidoDTO(Integer idPedido) {
+		this.idPedidoDTO = idPedido;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public ProdutoDTO getProdutoDTO() {
+		return produtoDTO;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setProdutoDTO(ProdutoDTO produtoDTO) {
+		this.produtoDTO = produtoDTO;
 	}
 
 	public String getStatus() {

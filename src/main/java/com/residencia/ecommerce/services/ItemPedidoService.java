@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.ItemPedidoResumidoDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.dto.RelatorioDTO;
 import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Pedido;
@@ -32,6 +33,8 @@ public class ItemPedidoService {
 	ModelMapper modelMapper;
 	@Autowired
 	EmailService emailService;
+	
+	
 	
 	public List<ItemPedidoDTO> getAllItemPedidosDTO() {
 		List<ItemPedido> listaItemPedido = itemPedidoRepository.findAll();		
@@ -56,27 +59,35 @@ public class ItemPedidoService {
 	public ItemPedidoDTO saveItemPedidoDTO(ItemPedidoDTO itemPedidoDTO) {
 		
 		Integer quantidade = itemPedidoDTO.getQuantidade();
-		Produto produto = produtoRepository.findById(itemPedidoDTO.getProduto().getIdProduto()).orElse(null);
-		Pedido pedido = pedidoRepository.findById(itemPedidoDTO.getPedido().getIdPedido()).orElse(null);
+		Produto produto = produtoRepository.findById(itemPedidoDTO.getProdutoDTO().getIdProduto()).orElse(null);
+		Pedido pedido = pedidoRepository.findById(itemPedidoDTO.getIdPedidoDTO()).orElse(null);
 		if(produto == null) {
-			throw new CustomException("Produto de id: "+itemPedidoDTO.getProduto().getIdProduto()+ " não encontrado");
+			throw new CustomException("Produto de id: "+itemPedidoDTO.getProdutoDTO().getIdProduto()+ " não encontrado");
 		}
 		if(pedido == null) {
-			throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " não encontrado");
+			throw new CustomException("Pedido de id: "+itemPedidoDTO.getIdPedidoDTO() + " não encontrado");
 		}
 		if(!pedido.getStatus().toLowerCase().equals("aberto")) {
-			throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " Não tem o status 'aberto'");
+			throw new CustomException("Pedido de id: "+itemPedidoDTO.getIdPedidoDTO()+ " Não tem o status 'aberto'");
 		}
 		
 		if (produto.getQtdEstoque() >= quantidade) {			
-			itemPedidoDTO.setPedido(pedido);
-			itemPedidoDTO.setProduto(produto);
+			itemPedidoDTO.setIdPedidoDTO(pedido.getIdPedido());
+			itemPedidoDTO.setProdutoDTO(modelMapper.map(produto, ProdutoDTO.class));
 			if(null == itemPedidoDTO.getPrecoVenda()) {
 				itemPedidoDTO.setPrecoVenda(produto.getValorUnitario());
 			}			
 			itemPedidoDTO.setValorBruto(itemPedidoDTO.getPrecoVenda().multiply(BigDecimal.valueOf(quantidade)));
 			itemPedidoDTO.setValorLiquido(itemPedidoDTO.getValorBruto().subtract(itemPedidoDTO.getValorBruto().multiply(itemPedidoDTO.getPercentualDesconto())));			
-			ItemPedido itemPedido = modelMapper.map(itemPedidoDTO, ItemPedido.class);
+			ItemPedido itemPedido = new ItemPedido();
+			itemPedido.setPedido(pedido);
+			itemPedido.setProduto(produto);
+			itemPedido.setPercentualDesconto(itemPedidoDTO.getPercentualDesconto());
+			itemPedido.setPrecoVenda(itemPedidoDTO.getPrecoVenda());
+			itemPedido.setQuantidade(quantidade);
+			itemPedido.setStatus(itemPedidoDTO.getStatus());
+			itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
+			itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
 			ItemPedido saveItemPedidoResponse = itemPedidoRepository.save(itemPedido);
 			if(saveItemPedidoResponse != null) {
 				produto.setQtdEstoque(produto.getQtdEstoque() - quantidade);				
@@ -93,7 +104,7 @@ public class ItemPedidoService {
 					this.enviaRelatorio(savePedidoResponse);
 		    	}			
 				
-				return modelMapper.map(saveItemPedidoResponse, ItemPedidoDTO.class);
+				return itemPedidoDTO;
 					
 				
 			}else {
@@ -116,16 +127,16 @@ public class ItemPedidoService {
 			}
 			
 			Integer quantidade = itemPedidoDTO.getQuantidade();
-			Produto produto = produtoRepository.findById(itemPedidoDTO.getProduto().getIdProduto()).orElse(null);
-			Pedido pedido = pedidoRepository.findById(itemPedidoDTO.getPedido().getIdPedido()).orElse(null);
+			Produto produto = produtoRepository.findById(itemPedidoDTO.getProdutoDTO().getIdProduto()).orElse(null);
+			Pedido pedido = pedidoRepository.findById(itemPedidoDTO.getIdPedidoDTO()).orElse(null);
 			if(produto == null) {
-				throw new CustomException("Produto de id: "+itemPedidoDTO.getProduto().getIdProduto()+ " não encontrado");
+				throw new CustomException("Produto de id: "+itemPedidoDTO.getProdutoDTO().getIdProduto()+ " não encontrado");
 			}
 			if(pedido == null) {
-				throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " não encontrado");
+				throw new CustomException("Pedido de id: "+itemPedidoDTO.getIdPedidoDTO()+ " não encontrado");
 			}
 			if(!pedido.getStatus().toLowerCase().equals("aberto")) {
-				throw new CustomException("Pedido de id: "+itemPedidoDTO.getPedido().getIdPedido()+ " Não tem o status 'aberto'");
+				throw new CustomException("Pedido de id: "+itemPedidoDTO.getIdPedidoDTO()+ " Não tem o status 'aberto'");
 			}
 			
 			produto.setQtdEstoque(produto.getQtdEstoque()+itemPedidoId.getQuantidade());
@@ -140,8 +151,8 @@ public class ItemPedidoService {
 			}			
 			
 			if (produto.getQtdEstoque() >= quantidade) {			
-				itemPedidoDTO.setPedido(pedido);
-				itemPedidoDTO.setProduto(produto);
+				itemPedidoDTO.setIdPedidoDTO(pedido.getIdPedido());
+				itemPedidoDTO.setProdutoDTO(modelMapper.map(produto, ProdutoDTO.class));
 				if(null == itemPedidoDTO.getPrecoVenda()) {
 					itemPedidoDTO.setPrecoVenda(produto.getValorUnitario());
 				}			

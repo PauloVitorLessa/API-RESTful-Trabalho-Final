@@ -17,10 +17,11 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 
-//@JsonIdentityInfo(
- //       generator = ObjectIdGenerators.PropertyGenerator.class,
- //       property = "idItemPedido"
-//        )
+@JsonIdentityInfo(
+		scope = ItemPedido.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+       property = "idItemPedido"
+        )
 @Entity
 @Table(name = "item_pedido")
 public class ItemPedido {

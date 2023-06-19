@@ -19,11 +19,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-//@JsonIdentityInfo(
-//		scope = Pedido.class,
-//		generator = ObjectIdGenerators.PropertyGenerator.class,
-//		property = "idPedido"
-//		)
+@JsonIdentityInfo(
+		scope = Pedido.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "idPedido"
+		)
 @Entity
 @Table(name = "pedido")
 public class Pedido {

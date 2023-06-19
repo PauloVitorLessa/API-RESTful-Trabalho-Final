@@ -12,10 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-//@JsonIdentityInfo(
- //       generator = ObjectIdGenerators.PropertyGenerator.class,
- //       property = "id"
-  //      )
+@JsonIdentityInfo(
+		scope = Role.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+       property = "id"
+      )
 @Entity
 @Table(name = "roles")
 public class Role {

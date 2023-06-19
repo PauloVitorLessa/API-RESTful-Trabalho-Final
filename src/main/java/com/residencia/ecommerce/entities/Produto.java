@@ -18,10 +18,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-//@JsonIdentityInfo(
-//       generator = ObjectIdGenerators.PropertyGenerator.class,
- //      property = "idProduto"
- //       )
+@JsonIdentityInfo(
+		scope = Produto.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+      property = "idProduto"
+       )
 @Entity
 @Table(name = "produto")
 public class Produto {

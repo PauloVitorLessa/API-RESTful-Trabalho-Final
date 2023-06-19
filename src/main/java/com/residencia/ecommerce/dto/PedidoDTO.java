@@ -4,12 +4,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.residencia.ecommerce.entities.Cliente;
-import com.residencia.ecommerce.entities.ItemPedido;
 import com.residencia.ecommerce.entities.Pedido;
 
 
-public class PedidoDTO {	
+public class PedidoDTO {
+	
 		
 	private Integer idPedido;
 	
@@ -23,9 +22,9 @@ public class PedidoDTO {
 	
 	private BigDecimal valorTotal;
 	
-	private Cliente cliente;
+	private Integer idCliente;
 	
-	private List<ItemPedido> itensPedidos;
+	private List<ItemPedidoDTO> itensPedidosDTO;
 	
 	public PedidoDTO(Pedido pedido) {
 		
@@ -35,8 +34,8 @@ public class PedidoDTO {
 		this.dataEnvio = pedido.getDataEnvio();
 		this.status = pedido.getStatus();
 		this.valorTotal = pedido.getValorTotal();
-		this.cliente = pedido.getCliente();
-		this.itensPedidos = pedido.getItensPedidos();
+		this.idCliente = pedido.getCliente().getIdCliente();
+		
 		
 	}	
 
@@ -45,7 +44,7 @@ public class PedidoDTO {
 	}
 
 	public PedidoDTO(Integer idPedido, Date dataPedido, Date dataEntrega, Date dataEnvio, String status,
-			BigDecimal valorTotal, Cliente cliente, List<ItemPedido> itensPedidos) {
+			BigDecimal valorTotal, Integer idCliente) {
 		super();
 		this.idPedido = idPedido;
 		this.dataPedido = dataPedido;
@@ -53,8 +52,8 @@ public class PedidoDTO {
 		this.dataEnvio = dataEnvio;
 		this.status = status;
 		this.valorTotal = valorTotal;
-		this.cliente = cliente;
-		this.itensPedidos = itensPedidos;
+		this.idCliente = idCliente;
+		
 	}
 
 	public Integer getIdPedido() {
@@ -105,19 +104,19 @@ public class PedidoDTO {
 		this.valorTotal = valorTotal;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Integer getIdCliente() {
+		return idCliente;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
 	}
 
-	public List<ItemPedido> getItensPedidos() {
-		return itensPedidos;
+	public List<ItemPedidoDTO> getItensPedidosDTO() {
+		return itensPedidosDTO;
 	}
 
-	public void setItensPedidos(List<ItemPedido> itensPedidos) {
-		this.itensPedidos = itensPedidos;
+	public void setItensPedidosDTO(List<ItemPedidoDTO> itensPedidosDTO) {
+		this.itensPedidosDTO = itensPedidosDTO;
 	}		
 }

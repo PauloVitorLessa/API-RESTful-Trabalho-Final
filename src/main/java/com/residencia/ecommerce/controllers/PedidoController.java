@@ -26,8 +26,10 @@ public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 	
+	
+	
 	@GetMapping
-    public ResponseEntity<List<PedidoDTO>> getAllPedidos() {
+    public ResponseEntity<List<PedidoDTO>> getAllPedidosDTO() {
         return new ResponseEntity<>(pedidoService.getAllPedidosDTO(),
                 HttpStatus.OK);
         //ResponseEntity manipula o retorno
